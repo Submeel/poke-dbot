@@ -32,3 +32,6 @@ module.exports = {
 
 //let pkm = getPostposition(target, '은', '는');
 //content = `어라… ${pkm} 보이지 않는다.` -> 어라… 텐타몬은 보이지 않는다.
+
+// let pkm = getPostposition(wantedPkmName, '을', '를');
+// content = `트레이너는 ${pkm} 사용했다!` -> 트레이너는 회복약을 사용했다!
