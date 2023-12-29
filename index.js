@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const config = require('./config.json');
-const { token } = process.env.BOT_TOKEN || config.token;
+const token = process.env.BOT_TOKEN || config.token;
 const SpreadsheetDataHandler = require('./sheet.js');
 const _ = require('lodash');
 
