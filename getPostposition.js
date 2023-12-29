@@ -12,7 +12,7 @@ function getPostposition(word, first, second) {
 
   if (finalConsonant === 0 ||
     (lastCharCode >= 48 && lastCharCode <= 57)) {
-    // 숫자일 경우 1,3,6,7,8,0은 first로 조사가 출력되고 나머지일 경우 second로 출력
+    // 숫자일 경우 1,3,6,7,8,0은 first로 조사가 출력되고 나머지일 경우 second로 출력됨
     if (['1', '3', '6', '7', '8', '0'].includes(lastChar)) {
       return word + first;
     } else {
