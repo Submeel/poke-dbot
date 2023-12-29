@@ -1,5 +1,5 @@
 {
-    "token": process.env.BOT_TOKEN,
+    "token": "BOT-TOKEN",
     "clientId": "1158581046334468239",
     "guildId": "1156536638273507368",
     "serverName": "포켓몬스터 플로라이트"
