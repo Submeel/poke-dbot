@@ -120,8 +120,8 @@ function doPokemonExp(monName, amount, userId) {
 
     // 현재 포켓몬의 레벨 !== 바뀌는 포켓몬 레벨이면 
     let levelUpDesc = '';
-    let pTobeMonLv = getPostposition(tobeMonLv, '로', '으로')
-    if (monLevel < tobeMonLv){
+    if (monLevel < tobeMonLv) {
+      let pTobeMonLv = getPostposition(tobeMonLv, '로', '으로')
       levelUpDesc = `\n ▶${monName}의 레벨이 ${pTobeMonLv} 올랐다!\n ▶HP가 올랐다! [ ${chaMaxHp} → ${chaMaxHp + (tobeMonLv - monLevel) * 6} ]\n ▶HP가 모두 회복되었다!`; //임베드에 레벨업 메시지 보내기
       chaMaxHp = chaMaxHp + (tobeMonLv - monLevel) * 6     
       chaNowHp = chaMaxHp //렙업은 최고의 힐이다
