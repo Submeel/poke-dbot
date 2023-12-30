@@ -1,4 +1,5 @@
 const SpreadsheetDataHandler = require('../sheet.js');
+const { getPostposition } = require('../getPostposition.js');
 const _ = require('lodash');
 
 function doPokemonExp(monName, amount, userId) {
