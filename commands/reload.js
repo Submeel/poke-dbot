@@ -7,9 +7,10 @@ module.exports = {
     .setDescription('시트에서 변경된 값을 다시 불러옵니다.')
   ,
   async execute(interaction) {
+    await interaction.deferReply();
     const dataHandler = SpreadsheetDataHandler.getInstance();
     await dataHandler.getAllSheetDataAsDictionaries();
     console.log('Sheet data load 완료:', dataHandler.sheetRecords);
-    interaction.reply("시트에서 모든 데이터를 다시 불러왔으며, 적용되었습니다.")
+    await interaction.editReply({ content: '모든 데이터를 스프레드시트에서 다시 불러왔습니다.', ephemeral: true });
   },
 };
