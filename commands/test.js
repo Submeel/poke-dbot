@@ -4,7 +4,7 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('판매')
+    .setName('테스트')
     .setDescription('아이템을 판매합니다')
     .addStringOption(option =>
       option

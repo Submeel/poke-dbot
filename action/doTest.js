@@ -3,9 +3,9 @@ const { minusItem } = require('../userItem.js');
 const { getPostposition } = require('../getPostposition.js');
 const _ = require('lodash');
 
-function doSell(item, amount, userId) {
+function doTest(item, amount, userId) {
   try {
-    console.log('doSell 시작::')
+    console.log('doTest 시작::')
     // 1. 캐릭터 시트 + 판매 중인 아이템 시트 받아오기
     const dataHandler = SpreadsheetDataHandler.getInstance();
     let sheetRecords = _.cloneDeep(dataHandler.sheetRecords);
@@ -85,11 +85,11 @@ function doSell(item, amount, userId) {
   } catch (e) {
     //에러 처리
     const content =
-      `doSell 에러. 메시지를 캡처해 서버장에게 문의해 주세요. \nname:${e.name}\nmessage:${e.message}\nstack:${e.stack}`
+      `doTest 에러. 메시지를 캡처해 서버장에게 문의해 주세요. \nname:${e.name}\nmessage:${e.message}\nstack:${e.stack}`
     return { 'code': -1, 'content': content }
   }
 }
 
 module.exports = {
-  doSell,
+  doTest,
 };
