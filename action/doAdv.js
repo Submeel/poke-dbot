@@ -1,5 +1,6 @@
 const SpreadsheetDataHandler = require('../sheet.js');
 const { addItem } = require('../userItem.js');
+const { getPostposition } = require('../getPostposition.js');
 const _ = require('lodash');
 
 function doAdv(keyword, userId) {
@@ -196,7 +197,28 @@ function doAdv(keyword, userId) {
     if (advRecords[selectIdxArray[pickIdx]]['스레드'] === 'TRUE') { //스프레드시트의 TRUE는 대문자.
       isNeedThread = true
     }
-    
+    // 7-1. 스레드를 만들며 들어갈 메시지 출력
+    let threadDesc = '스프레드 시트의 항목이 비어있습니다. 서버장에게 문의해 주세요!'
+    const enemyRecords = sheetRecords['승부']
+
+    let enemyIdx = null;
+    for (let i = 0; i < enemyRecords.length; i++) {
+      if ('' + userId === '' + advRecords[selectIdxArray[pickIdx]]['승부']) {
+        enemyIdx = i;
+        break;
+      }
+    }
+    if (enemyIdx === null) {
+      threadDesc = '스프레드 시트의 항목이 비어있습니다. 서버장에게 문의해 주세요!';
+      return { 'code': -1, 'content': content };
+    }
+
+    enemyName = getPostposition(enemyRecords[enemyIdx]['이름'], '이', '가')
+    enemyHp = enemyRecords[enemyIdx]['체력']
+    enemySay = enemyRecords[enemyIdx]['등장대사']
+
+    threadDesc = `“${enemySay}”\n${enemyName} 승부를 걸어왔다!\n\>HP ${enemyHp}`
+
     // 8. 만약 `루팅`에 값이 있으면, 해당 유저의 아이템에 아이템을 추가한다.
     const itemRecords = sheetRecords['아이템']  
     let updateCategoryCol = { '회복': 'H', '볼': 'I', '나무열매': 'J', '도구': 'K', '중요한물건': 'L' }  
@@ -233,7 +255,7 @@ function doAdv(keyword, userId) {
 
     }
 
-    return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': isNeedThread }
+    return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': isNeedThread, 'threadDesc': threadDesc }
 
   } catch (e) {
     //에러 처리

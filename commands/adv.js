@@ -1,7 +1,7 @@
 const { ThreadAutoArchiveDuration, SlashCommandBuilder } = require('discord.js');
 const { doAdv } = require('../action/doAdv');
 const SpreadsheetDataHandler = require('../sheet.js');
-const { writeJson} = require('../jsonFile.js');
+const { writeJson } = require('../jsonFile.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -42,7 +42,7 @@ module.exports = {
       });
 
       //스레드에 메시지 전송
-      let makeThread = await thread.send('스레드 생성 테스트');
+      let makeThread = await thread.send(result.threadDesc);
       writeJson(makeThread.channelId)
     }
     interaction.reply(result.content)
