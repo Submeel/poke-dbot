@@ -198,19 +198,20 @@ function doAdv(keyword, userId) {
       isNeedThread = true
     }
     // 7-1. 스레드를 만들며 들어갈 메시지 출력
-    let threadDesc = '스프레드 시트의 항목이 비어있습니다. 서버장에게 문의해 주세요!'
+    let threadDesc = ''
     const enemyRecords = sheetRecords['승부']
 
     let enemyIdx = null;
-    for (let i = 0; i < enemyRecords.length; i++) {
+    if (advRecords[selectIdxArray[pickIdx]]['스레드'] === 'TRUE') {
+      for (let i = 0; i < enemyRecords.length; i++) {
       if ('' + userId === '' + advRecords[selectIdxArray[pickIdx]]['승부']) {
         enemyIdx = i;
         break;
       }
     }
+  }
     if (enemyIdx === null) {
       threadDesc = '스프레드 시트의 항목이 비어있습니다. 서버장에게 문의해 주세요!';
-      return { 'code': -1, 'content': content };
     }
 
     enemyName = getPostposition(enemyRecords[enemyIdx]['이름'], '이', '가')
