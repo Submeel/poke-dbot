@@ -208,17 +208,18 @@ function doAdv(keyword, userId) {
         enemyIdx = i;
         break;
       }
-    }
-  }
+      } 
     if (enemyIdx === null) {
       threadDesc = '스프레드 시트의 항목이 비어있습니다. 서버장에게 문의해 주세요!';
     }
-
     enemyName = getPostposition(enemyRecords[enemyIdx]['이름'], '이', '가')
     enemyHp = enemyRecords[enemyIdx]['체력']
     enemySay = enemyRecords[enemyIdx]['등장대사']
 
     threadDesc = `“${enemySay}”\n${enemyName} 승부를 걸어왔다!\n\>HP ${enemyHp}`
+    }
+    
+
 
     // 8. 만약 `루팅`에 값이 있으면, 해당 유저의 아이템에 아이템을 추가한다.
     const itemRecords = sheetRecords['아이템']  
