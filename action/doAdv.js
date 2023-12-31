@@ -255,7 +255,7 @@ function doAdv(keyword, userId) {
 
       let userItemsAdd = addReturn['content']
       chaRecords[chaIdx][category] = userItemsAdd
-      updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd, ['F' + (chaIdx + 3)]: chaNowHp, ['R' + (chaIdx + 3)]: count + 1  }
+      updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd, ['R' + (chaIdx + 3)]: count + 1  }
     }
 
     console.log(`advRecords[selectIdxArray[pickIdx]]['피해']:`, advRecords[selectIdxArray[pickIdx]]['피해'])
