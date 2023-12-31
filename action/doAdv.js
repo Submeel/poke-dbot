@@ -251,35 +251,37 @@ function doAdv(keyword, userId) {
         return addReturn
       }
 
-      console.log(`advRecords[selectIdxArray[pickIdx]]['피해']:`, advRecords[selectIdxArray[pickIdx]]['피해'])
-    // 9. 만약 '피해'에 값이 있으면, 해당 유저의 HP를 감소시킨다.
-      if (advRecords[selectIdxArray[pickIdx]]['피해'] !== '' && advRecords[selectIdxArray[pickIdx]]['피해'] !== undefined && advRecords[selectIdxArray[pickIdx]]['피해'] !== null) {
-        let damage = parseInt(advRecords[selectIdxArray[pickIdx]]['피해'])
-        console.log('피해량:', parseInt(advRecords[selectIdxArray[pickIdx]]['피해']))
-
-        let chaIdx = null; //캐릭터 찾기
-        for (let i = 0; i < chaRecords.length; i++) {
-          if ('' + userId === '' + chaRecords[i]['아이디']) {
-            chaIdx = i;
-            break;
-          }
-        }
-
-        let chaNowHp = parseInt(chaRecords[chaIdx]['현재 체력'])
-        console.log('현재 체력:', chaNowHp)
-        chaNowHp = chaNowHp - damage
-        console.log('피해 입은 후 체력:', chaNowHp)
-        if (chaNowHp < 5) {
-          content = '더 돌아다니기엔 너무 위험한 상태다. 치료를 하고 마저 모험하자!';
-          return { 'code': -1, 'content': content }
-        }
-        chaRecords[chaIdx]['현재 체력'] = chaNowHp
-      }
+      
 
       let userItemsAdd = addReturn['content']
       chaRecords[chaIdx][category] = userItemsAdd
       updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd, ['F' + (chaIdx + 3)]: chaNowHp, ['R' + (chaIdx + 3)]: count + 1  }
+    }
 
+    console.log(`advRecords[selectIdxArray[pickIdx]]['피해']:`, advRecords[selectIdxArray[pickIdx]]['피해'])
+    // 9. 만약 '피해'에 값이 있으면, 해당 유저의 HP를 감소시킨다.
+    if (advRecords[selectIdxArray[pickIdx]]['피해'] !== '' && advRecords[selectIdxArray[pickIdx]]['피해'] !== undefined && advRecords[selectIdxArray[pickIdx]]['피해'] !== null) {
+      let damage = parseInt(advRecords[selectIdxArray[pickIdx]]['피해'])
+      console.log('피해량:', parseInt(advRecords[selectIdxArray[pickIdx]]['피해']))
+
+      let chaIdx = null; //캐릭터 찾기
+      for (let i = 0; i < chaRecords.length; i++) {
+        if ('' + userId === '' + chaRecords[i]['아이디']) {
+          chaIdx = i;
+          break;
+        }
+      }
+
+      let chaNowHp = parseInt(chaRecords[chaIdx]['현재 체력'])
+      console.log('현재 체력:', chaNowHp)
+      chaNowHp = chaNowHp - damage
+      console.log('피해 입은 후 체력:', chaNowHp)
+      if (chaNowHp < 5) {
+        content = '더 돌아다니기엔 너무 위험한 상태다. 치료를 하고 마저 모험하자!';
+        return { 'code': -1, 'content': content }
+      }
+      chaRecords[chaIdx]['현재 체력'] = chaNowHp
+      updateData['캐릭터'] = { ['F' + (chaIdx + 3)]: chaNowHp }
     }
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': isNeedThread, 'threadDesc': threadDesc }
