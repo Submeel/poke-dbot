@@ -251,8 +251,9 @@ function doAdv(keyword, userId) {
         return addReturn
       }
 
+      console.log(`advRecords[selectIdxArray[pickIdx]]['피해']:`, advRecords[selectIdxArray[pickIdx]]['피해'])
     // 9. 만약 '피해'에 값이 있으면, 해당 유저의 HP를 감소시킨다.
-      if (advRecords[selectIdxArray[pickIdx]]['피해'] !== '' && advRecords[selectIdxArray[pickIdx]]['피해'] !== undefined) {
+      if (advRecords[selectIdxArray[pickIdx]]['피해'] !== '' && advRecords[selectIdxArray[pickIdx]]['피해'] !== undefined && advRecords[selectIdxArray[pickIdx]]['피해'] !== null) {
         let damage = parseInt(advRecords[selectIdxArray[pickIdx]]['피해'])
         console.log('피해량:', parseInt(advRecords[selectIdxArray[pickIdx]]['피해']))
 
