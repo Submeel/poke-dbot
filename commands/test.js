@@ -40,7 +40,7 @@ module.exports = {
     //   dataHandler.sheetRecords = result.sheetRecords
     // }
     await interaction.reply({
-      content: result.content, 
+      content: 'result.content', 
       components: [row]
     });
   },
