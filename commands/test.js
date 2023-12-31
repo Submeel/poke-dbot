@@ -23,7 +23,7 @@ module.exports = {
     const userId = interaction.user.id;
     const item = interaction.options.getString('아이템')
     const amount = interaction.options.getInteger('수량')
-    let result = doTest(item, amount, userId)
+    //let result = doTest(item, amount, userId)
     const confirm = new ButtonBuilder()
       .setCustomId('confirm')
       .setLabel('✅')
