@@ -40,7 +40,7 @@ client.on(Events.ClientReady, () => {
         let sheetRecords = _.cloneDeep(dataHandler.sheetRecords);
         const chaRecords = sheetRecords['캐릭터']
         const advRecords = sheetRecords['모험']
-        if (hours === 0 && minutes === 0 && seconds === 0) {
+        if (hours === 10 && minutes === 0 && seconds === 0) {
             await dataHandler.clearCells("캐릭터", "R3:R");
             await dataHandler.clearCells("캐릭터", "S3:S");
             await dataHandler.clearCells("모험", "F3:F");
