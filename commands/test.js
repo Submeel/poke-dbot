@@ -33,7 +33,7 @@ module.exports = {
       .setStyle(ButtonStyle.Success);
     const cancel = new ButtonBuilder()
       .setCustomId('cancel')
-      .setLabel('✖')
+      .setLabel('×Xx✖')
       .setStyle(ButtonStyle.Danger); 
     const buttons = new ActionRowBuilder()
       .addComponents(cancel, confirm);
