@@ -25,15 +25,17 @@ module.exports = {
     const item = interaction.options.getString('아이템')
     const amount = interaction.options.getInteger('수량')
     let result = doTest(item, amount, userId)
-    let desc = result.content
+    let desc = result.content//만들어온 임베드
     console.log('desc:',desc)
+
+    //버튼만들기
     const confirm = new ButtonBuilder()
       .setCustomId('confirm')
       .setLabel('✔')
       .setStyle(ButtonStyle.Success);
     const cancel = new ButtonBuilder()
       .setCustomId('cancel')
-      .setLabel('×Xx✖')
+      .setLabel('✖')
       .setStyle(ButtonStyle.Danger); 
     const buttons = new ActionRowBuilder()
       .addComponents(cancel, confirm);
@@ -43,9 +45,11 @@ module.exports = {
       dataHandler.sheetRecords = result.sheetRecords
     }
 
-    await interaction.reply({
+    const msg = await interaction.reply({
       content: `${item}:: ${amount}개 판매하시겠습니까?`, 
       components: [buttons]
+      
     });
+    return msg;
   },
 };
