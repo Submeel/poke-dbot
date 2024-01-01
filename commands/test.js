@@ -26,6 +26,7 @@ module.exports = {
     const amount = interaction.options.getInteger('수량')
     let result = doTest(item, amount, userId)
     let desc = result.content
+    console.log('desc:',desc)
     const confirm = new ButtonBuilder()
       .setCustomId('confirm')
       .setLabel('✔')
@@ -42,22 +43,9 @@ module.exports = {
       dataHandler.sheetRecords = result.sheetRecords
     }
 
-    // 사용자의 상호작용에 대한 응답을 지연
-    await interaction.deferReply();
-
-    // 페이지가 하나만 있는 경우, 버튼 없이 해당 페이지를 보여줍니다.
-    const msg = await interaction.editReply({
-      embeds: desc,
-      components: [buttons],
-      fetchReply: true,
-    });    
-
-    return msg;
-
-
-    // await interaction.reply({
-    //   content: result.content, 
-    //   components: [row]
-    // });
+    await interaction.reply({
+      embeds: [desc], 
+      components: [row]
+    });
   },
 };
