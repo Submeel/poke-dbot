@@ -50,6 +50,30 @@ module.exports = {
       components: [buttons]
       
     });
+
+    // 버튼 클릭을 수집하는 메시지 컴포넌트 수집기를 생성
+    const mc = await msg.createMessageComponentCollector({
+      componentType: ComponentType.Button,
+      time,
+    });
+
+    // 버튼이 클릭될 때마다 실행되는 이벤트 핸들러
+    mc.on('collect', async (i) => {
+      // 클릭한 사용자의 ID가 원래 상호작용을 시작한 사용자의 ID와 일치하는지 확인
+      if (i.user.id !== interaction.user.id) return i.reply({ content: '남의 물건을 훔치면 안 돼!', ephemeral: true });
+
+      // 응답 지연
+      await i.deferUpdate({});
+      // 클릭된 버튼의 customId를 확인하여 페이지 인덱스를 업데이트
+      if (i.customId === 'cancel') { 
+        await interaction.reply("구매가 취소되었습니다.")
+      } 
+      if (i.customId === 'confirm') {
+        await interaction.reply("아이템을 구매했습니다!")
+      } 
+
+
     return msg;
+  })
   },
 };
