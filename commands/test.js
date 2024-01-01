@@ -23,7 +23,7 @@ module.exports = {
     const userId = interaction.user.id;
     const item = interaction.options.getString('아이템')
     const amount = interaction.options.getInteger('수량')
-    //let result = doTest(item, amount, userId)
+    let result = doTest(item, amount, userId)
     const confirm = new ButtonBuilder()
       .setCustomId('confirm')
       .setLabel('✅')
@@ -34,13 +34,13 @@ module.exports = {
       .setStyle(ButtonStyle.Danger); 
     const row = new ActionRowBuilder()
       .addComponents(cancel, confirm);
-    // if (result.hasOwnProperty('updateData')) {
-    //   const dataHandler = SpreadsheetDataHandler.getInstance();
-    //   await dataHandler.updateCells(result.updateData)
-    //   dataHandler.sheetRecords = result.sheetRecords
-    // }
+    if (result.hasOwnProperty('updateData')) {
+      const dataHandler = SpreadsheetDataHandler.getInstance();
+      await dataHandler.updateCells(result.updateData)
+      dataHandler.sheetRecords = result.sheetRecords
+    }
     await interaction.reply({
-      content: 'result.content', 
+      content: result.content, 
       components: [row]
     });
   },

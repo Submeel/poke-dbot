@@ -180,7 +180,7 @@ function doAdv(keyword, userId) {
     if (advRecords[selectIdxArray[pickIdx]]['해금'] !== '' && advRecords[selectIdxArray[pickIdx]]['해금'] !== undefined) {
       let unlockUserIdStr = advRecords[selectIdxArray[pickIdx]]['발견자']
       if (unlockUserIdStr === '' || unlockUserIdStr === undefined || unlockUserIdStr === null) {
-        unlockUserIdStr = '' + userId
+        unlockUserIdStr = '0/' + userId
       } else {
         unlockUserIdStr += '/' + userId
       }
