@@ -45,7 +45,7 @@ module.exports = {
 
     await interaction.reply({
       embeds: [desc], 
-      components: [row]
+      components: [buttons]
     });
   },
 };
