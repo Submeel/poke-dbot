@@ -61,18 +61,21 @@ function doTest(item, amount, userId) {
       sellDesc = `${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]\n현재 소지금: \`${chaMoney}원\``
     } 
 
+    sellEmbed.description = `${sellDesc}`
+    content = { embeds: [sellEmbed] };
+
     // 2. 버튼 체크하기
     // 3. 응답시간 초과일 경우 판매 취소 
     // 5. 판매 승인 로직
-    // 1. 유저의 '소지금'+ price = 최종 유저의 '소지금'
-    // 2. 유저의 item의 수량-amount = 최종 유저의 item 수량
+    // 5-1. 유저의 '소지금'+ price = 최종 유저의 '소지금'
+    // 5-2. 유저의 item의 수량-amount = 최종 유저의 item 수량
     // for (let i = 0; i <= amount; i++) {
     //   function minusItem(item, userItems)
     //   }
-    // 2-1. 만약 최종 유저의 item 수량 > 0 이 된다면 그냥 아이템+수량 통째로 텍스트를 뺀 것을 최종 유저의 '아이템'으로 변환
-    // 2-2. 만약 최종 유저의 item 수량 = 0 이 된다면 해당 item에 "수량"을 뺀 것을 최종 유저의 '아이템'으로 변환
-    // 2-3. 그 외의 경우 (최종 유저 item의 수량 < 0 이 된다면) content = '아이템이 부족합니다. 판매가 취소되었습니다.'
-    // 3. 최종 유저의 '소지금'과 최종 유저의 '아이템'을 업데이트한다
+    // 5-2-1. 만약 최종 유저의 item 수량 > 0 이 된다면 그냥 아이템+수량 통째로 텍스트를 뺀 것을 최종 유저의 '아이템'으로 변환
+    // 5-2-2. 만약 최종 유저의 item 수량 = 0 이 된다면 해당 item에 "수량"을 뺀 것을 최종 유저의 '아이템'으로 변환
+    // 5-2-3. 그 외의 경우 (최종 유저 item의 수량 < 0 이 된다면) content = '아이템이 부족합니다. 판매가 취소되었습니다.'
+    // 5-3. 최종 유저의 '소지금'과 최종 유저의 '아이템'을 업데이트한다
 
 
     sellEmbed.description = `${sellDesc}`

@@ -44,7 +44,7 @@ module.exports = {
     }
 
     await interaction.reply({
-      embeds: desc, 
+      content: `${item}:: ${amount}개 판매하시겠습니까?`, 
       components: [buttons]
     });
   },
