@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { doTest } = require('../action/doTest');
 const SpreadsheetDataHandler = require('../sheet.js');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
