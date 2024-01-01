@@ -58,11 +58,10 @@ function doTest(item, amount, userId) {
     // 4. → 1차 메시지 전송`${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
     let sellDesc = ``
     if (itemIdx !== null) {
-      sellDesc = `${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
-    }
-    // 1. 동시에 이모지 ✅`:white_check_mark:` ❌`:x:` 부여  
+      sellDesc = `${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]\n현재 소지금: \`${chaMoney}원\``
+    } 
 
-    // 2. 이모지 체크하기
+    // 2. 버튼 체크하기
     // 3. 응답시간 초과일 경우 판매 취소 
     // 5. 판매 승인 로직
     // 1. 유저의 '소지금'+ price = 최종 유저의 '소지금'

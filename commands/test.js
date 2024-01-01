@@ -26,11 +26,11 @@ module.exports = {
     let result = doTest(item, amount, userId)
     const confirm = new ButtonBuilder()
       .setCustomId('confirm')
-      .setLabel('✅')
+      .setLabel('✔')
       .setStyle(ButtonStyle.Success);
     const cancel = new ButtonBuilder()
       .setCustomId('cancel')
-      .setLabel('❌')
+      .setLabel('✖')
       .setStyle(ButtonStyle.Danger); 
     const row = new ActionRowBuilder()
       .addComponents(cancel, confirm);
