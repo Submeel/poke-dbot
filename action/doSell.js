@@ -60,20 +60,18 @@ function doSell(item, amount, userId) {
     if (itemIdx !== null){
       sellDesc = `${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
     }
-      // 1. 동시에 이모지 ✅`:white_check_mark:` ❌`:x:` 부여  
     
-      // 2. 이모지 체크하기
-      // 3. 응답시간 초과일 경우 판매 취소 
     // 5. 판매 승인 로직
 			// 1. 유저의 '소지금'+ price = 최종 유저의 '소지금'
 			// 2. 유저의 item의 수량-amount = 최종 유저의 item 수량
     // for (let i = 0; i <= amount; i++) {
-    //   addItem(item, userItems)
+    //   function minusItem(item, userItems)
     //   }
       // 2-1. 만약 최종 유저의 item 수량 > 0 이 된다면 그냥 아이템+수량 통째로 텍스트를 뺀 것을 최종 유저의 '아이템'으로 변환
       // 2-2. 만약 최종 유저의 item 수량 = 0 이 된다면 해당 item에 "수량"을 뺀 것을 최종 유저의 '아이템'으로 변환
       // 2-3. 그 외의 경우 (최종 유저 item의 수량 < 0 이 된다면) content = '아이템이 부족합니다. 판매가 취소되었습니다.'
       // 3. 최종 유저의 '소지금'과 최종 유저의 '아이템'을 업데이트한다
+      // 4. 2차 메시지 `${item}:: ${amount}개 판매되었습니다! \n 소지금 : \`${chaMoney} 원`\`
 
 
     sellEmbed.description = `${sellDesc}`

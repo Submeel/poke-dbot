@@ -53,7 +53,7 @@ module.exports = {
 
     // 버튼 클릭을 수집하는 메시지 컴포넌트 수집기를 생성
     const mc = await msg.createMessageComponentCollector({
-      componentType: ComponentType.Button,
+      //componentType: ComponentType.Button,
       time,
     });
 

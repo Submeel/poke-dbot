@@ -113,7 +113,7 @@ function doAdv(keyword, userId) {
     content = { embeds: [advEmbed] };
 
     //4-1. 배틀은 한 번 사용하면 더 사용할 수 없게 한다! (나무흔들기 등 채집 관련 명령어는 상관 없을듯 하여...)
-    if ('배틀' === keyword){
+    if ('배틀' === keyword || '꿀나무흔들기' === keyword){
       let unlockKeywordIdx = null;
       for (let i = 0; i < advRecords.length; i++) {
       if ('' + keyword === '' + advRecords[i]['해금']) {

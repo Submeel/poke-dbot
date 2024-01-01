@@ -92,6 +92,9 @@ function doBall(item, userId) {
       diceArray.push(tmpDice);
     }
     let dice = `\n▶굴림: [${diceArray}]   ▶결과: ${diceSum}`
+    if (diceArray[0] === diceArray[1] && diceArray[1] === diceArray[2]) {
+      dice += `\n𝘾𝙧𝙞𝙩𝙞𝙘𝙖𝙡!!`;
+    }
     //주사위 굴리기 끝
 
     let MainDesc = `**${item}** : \`${itemDesc}\`\n……\n${dice}`
