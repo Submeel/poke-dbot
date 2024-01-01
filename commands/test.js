@@ -46,7 +46,7 @@ module.exports = {
     }
 
     const msg = await interaction.reply({
-      content: `${item}:: ${amount}개 판매하시겠습니까?`, 
+      content: result.content.embeds, 
       components: [buttons]
       
     });
