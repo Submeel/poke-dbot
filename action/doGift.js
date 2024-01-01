@@ -63,8 +63,8 @@ function doGift(toUserId , item, userId) {
     }
 
 
-    let fromUserItems = chaRecords[fromChaIdx][category]
-    let toUserItems = chaRecords[toChaIdx][category]
+    let fromUserItems = chaRecords[fromChaIdx][category] //주는사람템창
+    let toUserItems = chaRecords[toChaIdx][category] //받는사람템창
 
     let minusReturn = minusItem(item, fromUserItems)
     if (minusReturn['code'] !== 0) {
@@ -72,7 +72,7 @@ function doGift(toUserId , item, userId) {
     } //주는사람에게서 템 빼기
     let fromUseItemsMinus = minusReturn['content']
     chaRecords[chaIdx][category] = fromUseItemsMinus 
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsMinus }
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (fromChaIdx + 3)]: userItemsMinus }
     //뺀 템 업뎃 끝
 
     let addReturn = addItem(item, toUserItems)
@@ -81,11 +81,11 @@ function doGift(toUserId , item, userId) {
     } //받는사람에게 템 넣기
     let userItemsAdd = addReturn['content']
     chaRecords[chaIdx][category] = userItemsAdd
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd }
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (toChaIdx + 3)]: userItemsAdd }
     //더한 템 업뎃 끝
     
     let itemP = getPostposition(item, '을', '를');
-    let MainDesc = `${itemP} 선물했다!`
+    let MainDesc = `${chaRecords[toChaIdx]['이름']}에게 ${itemP} 선물했다!`
 
     useEmbed.description = `${MainDesc}`
     content = { embeds: [useEmbed] };

@@ -83,6 +83,11 @@ function doPokemonExp(monName, amount, userId) {
       }
     }//포켓몬 Idx 찾기 끝
 
+    if (monIdx === null) {
+      content = '포켓몬의 이름을 확인해 주세요!';
+      return { 'code': -1, 'content': content }
+    }
+
     monLevel = allPkmObjs[monIdx]['레벨']
     monExp = allPkmObjs[monIdx]['경험치']
 
