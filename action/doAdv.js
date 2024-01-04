@@ -125,12 +125,12 @@ function doAdv(keyword, userId) {
       //배틀 커맨드를 해금하는 레코드에 붙어있는 발견자 셀 찾기 끝
 
       let sendKeywordUserStr = advRecords[unlockKeywordIdx]['발견자']
-      let sendKeywordUserArray;
-      if (sendKeywordUserStr !== '' || sendKeywordUserStr !== null || sendKeywordUserStr !== undefined ){ 
-        sendKeywordUserArray = sendKeywordUserStr.split('/') 
-      }else{
-        sendKeywordUserArray = [];
-      }
+      //let sendKeywordUserArray;
+      //if (sendKeywordUserStr !== '' || sendKeywordUserStr !== null || sendKeywordUserStr !== undefined ){ 
+      let sendKeywordUserArray = sendKeywordUserStr.split('/') 
+      // }else{
+      //   sendKeywordUserArray = [];
+      // }
       let unlockUserId = sendKeywordUserArray.indexOf(userId);
       if (unlockUserId !== -1) {
         sendKeywordUserArray.splice(unlockUserId, 1);
