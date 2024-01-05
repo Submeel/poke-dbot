@@ -125,12 +125,7 @@ function doAdv(keyword, userId) {
       //배틀 커맨드를 해금하는 레코드에 붙어있는 발견자 셀 찾기 끝
 
       let sendKeywordUserStr = advRecords[unlockKeywordIdx]['발견자']
-      //let sendKeywordUserArray;
-      //if (sendKeywordUserStr !== '' || sendKeywordUserStr !== null || sendKeywordUserStr !== undefined ){ 
       let sendKeywordUserArray = sendKeywordUserStr.split('/') 
-      // }else{
-      //   sendKeywordUserArray = [];
-      // }
       let unlockUserId = sendKeywordUserArray.indexOf(userId);
       if (unlockUserId !== -1) {
         sendKeywordUserArray.splice(unlockUserId, 1);
@@ -189,10 +184,6 @@ function doAdv(keyword, userId) {
       } else {
         unlockUserIdStr += userId + '/' 
       }
-      // let unlockIdx = pickIdx + 3
-      // if (keyword === '나무흔들기'){
-      //   unlockIdx = pickIdx + 18
-      // }
       updateData['모험'] = { ['F' + (selectIdxArray[pickIdx] + 3)]: unlockUserIdStr }
       advRecords[selectIdxArray[pickIdx]]['발견자'] = unlockUserIdStr
     }    
