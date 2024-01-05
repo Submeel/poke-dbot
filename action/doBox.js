@@ -10,6 +10,7 @@ function doBox(userId) {
     const chaRecords = sheetRecords['캐릭터']
     console.log(chaRecords)
     let content = null;
+    let updateData = {};  
 
     // 메시지를 보낸 유저의 아이디를 읽어서 시트의 몇 번째 행인지 확인
     let chaIdx = null;
