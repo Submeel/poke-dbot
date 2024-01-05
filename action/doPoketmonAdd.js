@@ -104,8 +104,26 @@ function doPoketmonAdd(userId, monName, monLevel, monExp, monBall, monParty) {
         wherePkm = '박스'
       }
 
+      //유저 HP 정산
+      let pkmLvSum = 0;
+      for (let pkm of allPkmObjs) {
+        if (pkm["파티"] === "true") {
+          pkmLvSum += pkm["레벨"];
+        }
+      }
+      const chaNowMaxHp = pkmLvSum * 6;
+      console.log('chaNowMaxHp:', chaNowMaxHp)
+
+      let chaNowHp = parseInt(chaRecords[chaIdx]['현재 체력'])
+      if (monParty === Y){
+        chaNowHp = chaNowHp + (monLevel*6)
+      }
+      chaRecords[chaIdx]['최대 체력'] = chaNowMaxHp // 캐릭터 최대체력 업데이트
+      chaRecords[chaIdx]['현재 체력'] = chaNowHp // 캐릭터 현재체력 업데이트
+
+
       let toBe = JSON.stringify(allPkmObjs)
-      updateData['캐릭터'] = {['M'+(chaIdx+3)]:toBe}
+      updateData['캐릭터'] = { ['E' + (chaIdx + 3)]: chaNowMaxHp, ['F' + (chaIdx + 3)]: chaNowHp, ['M'+(chaIdx+3)]: toBe }
       chaRecords[chaIdx]['포켓몬'] = toBe
 
       //볼 종류 이모지로 변환
@@ -192,6 +210,8 @@ function doPoketmonAdd(userId, monName, monLevel, monExp, monBall, monParty) {
         ],
       };
       content = { embeds: [monAddEmbed] };
+
+
 
       return { 'code': 0, 'content': content, 'updateData' : updateData , 'sheetRecords' : sheetRecords}        
 
