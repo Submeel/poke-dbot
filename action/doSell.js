@@ -32,7 +32,7 @@ function doSell(item, amount, userId) {
     console.log('판매 전 소지금:' + chaMoney)
     
 
-    // 3. 유저가 입력한 아이템이 판매중인 아이템인지 확인(for문 돌리기이)
+    // 3. 유저가 입력한 아이템이 존재하는 아이템인지 확인
     let itemIdx = null
     for (let i = 0; i < itemRecords.length; i++) {
       if (itemRecords[i]['아이템명'].trim() === item.trim()) {
@@ -44,6 +44,13 @@ function doSell(item, amount, userId) {
       content = `${item} :: 올바른 아이템 이름이 아닙니다!`;
       return { 'code': -1, 'content': content }
     }    
+
+    if (isNaN(itemRecords[itemIdx]['판매가']) === true ) { //아이템의 판매가가 숫자가 아닐 경우
+      content = `${item} :: 상점에서 취급하지 않는 아이템입니다!`;
+      return { 'code': -1, 'content': content }
+    }  
+
+
     let updateCategoryCol = { '회복': 'H', '볼': 'I', '나무열매': 'J', '도구': 'K', '중요한물건': 'L' } // 아이템 카테고리 칼럼
     let category = itemRecords[itemIdx]['카테고리'] //소지품 카테고리에 맞춰서 추가
     let userItems = chaRecords[chaIdx][category] //유저가 판매하고자 하는 아이템이 소속된 셀 문자열 
@@ -55,23 +62,30 @@ function doSell(item, amount, userId) {
     }else {
       price = salePrice * amount
     }
-    // 4. → 1차 메시지 전송`${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
-    let sellDesc = ``
-    if (itemIdx !== null){
-      sellDesc = `${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
-    }
+    // // 4. → 1차 메시지 전송`${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
+    // let sellDesc = ``
+    // if (itemIdx !== null){
+    //   sellDesc = `${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
+    // }
     
     // 5. 판매 승인 로직
 			// 1. 유저의 '소지금'+ price = 최종 유저의 '소지금'
+    chaMoney = chaMoney + price
 			// 2. 유저의 item의 수량-amount = 최종 유저의 item 수량
-    // for (let i = 0; i <= amount; i++) {
-    //   function minusItem(item, userItems)
-    //   }
-      // 2-1. 만약 최종 유저의 item 수량 > 0 이 된다면 그냥 아이템+수량 통째로 텍스트를 뺀 것을 최종 유저의 '아이템'으로 변환
-      // 2-2. 만약 최종 유저의 item 수량 = 0 이 된다면 해당 item에 "수량"을 뺀 것을 최종 유저의 '아이템'으로 변환
-      // 2-3. 그 외의 경우 (최종 유저 item의 수량 < 0 이 된다면) content = '아이템이 부족합니다. 판매가 취소되었습니다.'
-      // 3. 최종 유저의 '소지금'과 최종 유저의 '아이템'을 업데이트한다
-      // 4. 2차 메시지 `${item}:: ${amount}개 판매되었습니다! \n 소지금 : \`${chaMoney} 원`\`
+    let minusReturn = null;
+    for (let i = 0; i <= amount; i++) {
+      minusReturn = minusItem(item, userItems)
+      }    
+    if (minusReturn['code'] !== 0) {
+      return minusReturn
+    }
+
+    let userItemsMinus = minusReturn['content']
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsMinus, ['G' + (chaIdx + 3)]: chaMoney }
+    chaRecords[chaIdx][category] = userItemsMinus
+    chaRecords[chaIdx]['소지금'] = chaMoney
+    
+    let sellDesc = `${item}:: ${amount}개 판매되었습니다! \n 소지금 : \`${chaMoney} 원\``
 
 
     sellEmbed.description = `${sellDesc}`
