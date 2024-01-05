@@ -62,12 +62,20 @@ function doSell(item, amount, userId) {
     }else {
       price = parseInt(salePrice) * parseInt(amount)
     }
-    // // 4. → 1차 메시지 전송`${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
-    // let sellDesc = ``
-    // if (itemIdx !== null){
-    //   sellDesc = `${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
-    // }
     
+    // 4.amount > 가지고있는 아이템 개수 = '아이템이 부족합니다. 판매가 취소되었습니다.'
+    let remainItem = null;
+    for (let i = 0; i < chaItemArray.length; i++) {
+      let findIdx = chaItemArray[i].trim().indexOf(item.trim())
+      if (findIdx === 0) {
+        remainItem = chaItemArray[i].trim().slice(item.length)
+      }
+    }
+    if (parseInt(remainItem) < parseInt(amount)){
+      content = `${item} :: 아이템이 부족합니다! 판매가 취소되었습니다.`;
+      return { 'code': -1, 'content': content }
+    }
+
     // 5. 판매 승인 로직
 			// 1. 유저의 '소지금'+ price = 최종 유저의 '소지금'
     chaMoney = parseInt(chaMoney) + parseInt(price)
