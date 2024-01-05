@@ -42,12 +42,22 @@ function doPoketmonDelete(userId, monName){
         return { 'code': -1, 'content': content }
       }
 
+      let chaNowMaxHp = parseInt(chaRecords[chaIdx]['최대 체력'])
+      let chaNowHp = parseInt(chaRecords[chaIdx]['현재 체력'])
+      if (allPkmObjs[monIdx]['파티'] === 'true'){
+        chaNowMaxHp = chaNowMaxHp - (parseInt(allPkmObjs[monIdx]['레벨']) * 6)
+        chaNowHp = chaNowHp - (parseInt(allPkmObjs[monIdx]['레벨']) * 6)
+      }
       
       allPkmObjs.splice(monIdx, 1)
 
       let toBe = JSON.stringify(allPkmObjs)
-      updateData['캐릭터'] = {['M'+(chaIdx+3)]:toBe}
+
+      
+      updateData['캐릭터'] = { ['E' + (chaIdx + 3)]: chaNowMaxHp, ['F' + (chaIdx + 3)]: chaNowHp, ['M' + (chaIdx + 3)]: toBe}
       chaRecords[chaIdx]['포켓몬'] = toBe
+      chaRecords[chaIdx]['최대 체력'] = chaNowMaxHp // 캐릭터 최대체력 업데이트
+      chaRecords[chaIdx]['현재 체력'] = chaNowHp // 캐릭터 현재체력 업데이트
 
       function isAlphabet(char) {
         return /^[a-zA-Z]$/.test(char);
