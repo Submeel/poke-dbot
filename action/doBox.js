@@ -224,10 +224,19 @@ function doBox(userId) {
       }
     }
 
-    const chaNowMaxHp = pkmLvSum * 6;
+    let chaNowMaxHp = pkmLvSum * 6;
     console.log('chaNowMaxHp:', chaNowMaxHp)
 
-    return { 'code': 0, 'content': content }
+    let chaNowHp = parseInt(chaRecords[chaIdx]['현재 체력'])
+    if (chaNowHp > chaNowMaxHp){
+      chaNowHp = chaNowMaxHp
+    }
+
+    updateData['캐릭터'] = { ['E' + (chaIdx + 3)]: chaNowMaxHp, ['F' + (chaIdx + 3)]: chaNowHp } 
+    chaRecords[chaIdx]['최대 체력'] = chaNowMaxHp // 캐릭터 최대체력 업데이트
+    chaRecords[chaIdx]['현재 체력'] = chaNowHp // 캐릭터 현재체력 업데이트
+
+    return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords }
 
   } catch (e) {
     //에러 처리

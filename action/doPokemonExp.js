@@ -144,7 +144,7 @@ function doPokemonExp(monName, amount, userId) {
     
     chaRecords[chaIdx]['경험치'] = nowExp // 캐릭터 경험치 업데이트
     chaRecords[chaIdx]['최대 체력'] = chaMaxHp // 캐릭터 최대체력 업데이트
-    chaRecords[chaIdx]['현재 체력'] = chaMaxHp // 캐릭터 최대체력 업데이트
+    chaRecords[chaIdx]['현재 체력'] = chaNowHp // 캐릭터 현재체력 업데이트
     chaRecords[chaIdx]['포켓몬'] = toBe // 캐릭터 포켓몬 데이터 업데이트
     
     // 임베드
