@@ -72,7 +72,7 @@ function doGift(toUserId , item, userId) {
     } //주는사람에게서 템 빼기
     let fromUseItemsMinus = minusReturn['content']
     chaRecords[fromChaIdx][category] = fromUseItemsMinus 
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (fromChaIdx + 3)]: userItemsMinus }
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (fromChaIdx + 3)]: fromUseItemsMinus }
     //뺀 템 업뎃 끝
 
     let addReturn = addItem(item, toUserItems)
