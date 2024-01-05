@@ -10,6 +10,7 @@ module.exports = {
       option
         .setName('아이템')
         .setDescription('선물할 아이템을 입력해 주세요.')
+        .setRequired(true)
   ).addUserOption(option =>
       option
         .setName('대상')
