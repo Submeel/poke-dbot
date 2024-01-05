@@ -70,9 +70,11 @@ function doGift(toUserId , item, userId) {
     if (minusReturn['code'] !== 0) {
       return minusReturn
     } //주는사람에게서 템 빼기
-    let fromUseItemsMinus = minusReturn['content']
-    chaRecords[fromChaIdx][category] = fromUseItemsMinus 
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (fromChaIdx + 3)]: fromUseItemsMinus }
+    let userItemsMinus = minusReturn['content']
+    chaRecords[fromChaIdx][category] = userItemsMinus 
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (fromChaIdx + 3)]: userItemsMinus }
+    console.log('userItemsMinus:', userItemsMinus)
+    console.log('주는사람:', fromChaIdx + 3)
     //뺀 템 업뎃 끝
 
     let addReturn = addItem(item, toUserItems)
