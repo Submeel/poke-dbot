@@ -72,7 +72,6 @@ function doGift(toUserId , item, userId) {
     } //주는사람에게서 템 빼기
     let userItemsMinus = minusReturn['content']
     chaRecords[fromChaIdx][category] = userItemsMinus 
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (fromChaIdx + 3)]: userItemsMinus }
     console.log('userItemsMinus:', userItemsMinus)
     console.log('주는사람:', fromChaIdx + 3)
     //뺀 템 업뎃 끝
@@ -83,7 +82,7 @@ function doGift(toUserId , item, userId) {
     } //받는사람에게 템 넣기
     let userItemsAdd = addReturn['content']
     chaRecords[toChaIdx][category] = userItemsAdd
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (toChaIdx + 3)]: userItemsAdd }
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (toChaIdx + 3)]: userItemsAdd, [updateCategoryCol[category] + (fromChaIdx + 3)]: userItemsMinus }
     //더한 템 업뎃 끝
     
     let itemP = getPostposition(item, '을', '를');
