@@ -60,7 +60,7 @@ function doSell(item, amount, userId) {
       amount = 1
       price = salePrice
     }else {
-      price = salePrice * amount
+      price = parseInt(salePrice) * parseInt(amount)
     }
     // // 4. → 1차 메시지 전송`${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
     // let sellDesc = ``
@@ -70,7 +70,7 @@ function doSell(item, amount, userId) {
     
     // 5. 판매 승인 로직
 			// 1. 유저의 '소지금'+ price = 최종 유저의 '소지금'
-    chaMoney = chaMoney + price
+    chaMoney = parseInt(chaMoney) + parseInt(price)
 			// 2. 유저의 item의 수량-amount = 최종 유저의 item 수량
     let minusReturn = null;
     for (let i = 0; i <= amount; i++) {
