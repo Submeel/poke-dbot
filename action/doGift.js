@@ -86,8 +86,8 @@ function doGift(toUserId , item, userId) {
     //더한 템 업뎃 끝
     
     let itemP = getPostposition(item, '을', '를');
-    //let MainDesc = `${chaRecords[toChaIdx]['이름']}에게 ${itemP} 선물했다!`
-    let MainDesc = `@${toUserId}에게 ${itemP} 선물했다!`
+    let MainDesc = `${chaRecords[toChaIdx]['이름']}에게 ${itemP} 선물했다!`
+    //let MainDesc = `${toUserId}에게 ${itemP} 선물했다!`
 
     useEmbed.description = `${MainDesc}`
     content = { embeds: [useEmbed] };
