@@ -115,7 +115,7 @@ function doPoketmonAdd(userId, monName, monLevel, monExp, monBall, monParty) {
       console.log('chaNowMaxHp:', chaNowMaxHp)
 
       let chaNowHp = parseInt(chaRecords[chaIdx]['현재 체력'])
-      if (monParty === Y){
+      if (monParty === 'Y'){
         chaNowHp = chaNowHp + (monLevel*6)
       }
       chaRecords[chaIdx]['최대 체력'] = chaNowMaxHp // 캐릭터 최대체력 업데이트
