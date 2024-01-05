@@ -28,7 +28,7 @@ function doBox(userId) {
       return { 'code': -1, 'content': content }
     } //이름 끝
 
-    let allPkm = chaRecords[chaIdx]['포켓몬'] //포켓몬 열 읽기
+    let allPkm = chaRecords[chaIdx]['포켓몬'] //포켓몬 열 읽기    
     let allPkmObjs = JSON.parse(allPkm)
     let pokemonStr = ''    
     for (let i = 0; i < allPkmObjs.length; i++) {
@@ -214,6 +214,18 @@ function doBox(userId) {
       },
     };
     content = { embeds: [boxEmbed] };
+
+    
+    let pkmLvSum = 0;
+
+    for (let pkm of allPkmObjs) {
+      if (pkm["파티"] === "true") {
+        pkmLvSum += pkm["레벨"];
+      }
+    }
+
+    const chaNowMaxHp = pkmLvSum * 6;
+    console.log('chaNowMaxHp:', chaNowMaxHp)
 
     return { 'code': 0, 'content': content }
 
