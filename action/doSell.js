@@ -84,8 +84,9 @@ function doSell(item, amount, userId) {
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsMinus, ['G' + (chaIdx + 3)]: chaMoney }
     chaRecords[chaIdx][category] = userItemsMinus
     chaRecords[chaIdx]['소지금'] = chaMoney
-    
-    let sellDesc = `${item}:: ${amount}개 판매되었습니다! \n 소지금 : \`${chaMoney} 원\``
+
+    let itemP = getPostposition(item, '을', '를')
+    let sellDesc = `${itemP} ${amount}개 판매했습니다! \n 소지금 : \`${chaMoney} 원\``
 
 
     sellEmbed.description = `${sellDesc}`
