@@ -64,6 +64,13 @@ function doSell(item, amount, userId) {
     }
     
     // 4.amount > 가지고있는 아이템 개수 = '아이템이 부족합니다. 판매가 취소되었습니다.'
+    let chaItemArray = null;
+    if (userItems === null || userItems === undefined || userItems === '') {
+      const content = '소지품이 부족합니다.'
+      return { 'code': -1, 'content': content }
+    } else {
+      chaItemArray = userItems.split(',')
+    } 
     let remainItem = null;
     for (let i = 0; i < chaItemArray.length; i++) {
       let findIdx = chaItemArray[i].trim().indexOf(item.trim())
