@@ -46,7 +46,7 @@ module.exports = {
     }
 
     const msg = await interaction.reply({
-      content: [result.content.embeds], 
+      embeds: [result.content.embeds], 
       components: [buttons]
       
     });
