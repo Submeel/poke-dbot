@@ -133,7 +133,7 @@ function doBuy(item, amount, userId) {
     resultStr = resultStr.slice(2)
       
       //유저아이템 복붙 끝
-    }
+    
     console.log('resultStr2:', resultStr)
 
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
