@@ -121,7 +121,7 @@ function doSell(item, amount, userId) {
     // let userItemsMinus = minusReturn['content']
 
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
-    chaRecords[chaIdx][category] = userItemsMinus
+    chaRecords[chaIdx][category] = resultStr
     chaRecords[chaIdx]['소지금'] = chaMoney
 
     let itemP = getPostposition(item, '을', '를')
