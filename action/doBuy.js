@@ -117,7 +117,6 @@ function doBuy(item, amount, userId) {
       if (findFlag == false) {
         chaItemArray.push(`프리미어볼 ${preAmount}`)
       }
-      console.log('resultStr:', resultStr )
       console.log('chaItemArray', chaItemArray)
       // resultStr에 다시 돌려줌
       let resultStr = ''
