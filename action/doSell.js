@@ -13,11 +13,6 @@ function doSell(item, amount, userId) {
     const itemRecords = sheetRecords['아이템']
     let content = null;
     let updateData = {};
-    //임베드 만들기    
-    const sellEmbed = {
-      title: `[판매:: ${item}]`,
-      color: 0xC10303,
-    };
 
     // 2. 명령어를 입력한 유저의 아이디 판별
     let chaIdx = null; //캐릭터 찾기
@@ -116,10 +111,17 @@ function doSell(item, amount, userId) {
     chaRecords[chaIdx][category] = resultStr
     chaRecords[chaIdx]['소지금'] = chaMoney
 
+    //임베드 만들기    
+    const sellEmbed = {
+      title: `[판매:: ${item}]`,
+      color: 0x5A95F5,
+      footer: {
+        text: `▶${chaRecords[chaIdx]['이름']}의 잔여 소지금 : ${chaMoney} 원`,
+      },
+    };
+
     let itemP = getPostposition(item, '을', '를')
-    let sellDesc = `${itemP} ${amount}개 판매했습니다! \n 소지금 : \`${chaMoney} 원\``
-
-
+    let sellDesc = `${itemP} ${amount}개 판매했습니다!`
     sellEmbed.description = `${sellDesc}`
     content = { embeds: [sellEmbed] };
 

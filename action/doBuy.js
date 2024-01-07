@@ -104,7 +104,7 @@ function doBuy(item, amount, userId) {
       title: `[구매:: ${item}]`,
       color: 0xC10303,
       footer: {
-        text: `▶${chaRecords[chaIdx]['이름']}의 잔여 소지금 : \`${chaMoney} 원\``,
+        text: `▶${chaRecords[chaIdx]['이름']}의 잔여 소지금 : ${chaMoney} 원`,
       },
     };
 
