@@ -112,8 +112,8 @@ function doSell(item, amount, userId) {
     // if (minusReturn['code'] !== 0) {
     //   return minusReturn
     // }
-
-    let userItemsMinus = minusReturn['content']
+    // let userItemsMinus = minusReturn['content']
+    
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
     chaRecords[chaIdx][category] = userItemsMinus
     chaRecords[chaIdx]['소지금'] = chaMoney
