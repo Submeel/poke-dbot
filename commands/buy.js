@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { doSell } = require('../action/doSell');
+const { doBuy } = require('../action/doBuy');
 const SpreadsheetDataHandler = require('../sheet.js');
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
     const userId = interaction.user.id;
     const item = interaction.options.getString('아이템')
     const amount = interaction.options.getInteger('수량')
-    let result = doSell(item, amount, userId)
+    let result = doBuy(item, amount, userId)
     if (result.hasOwnProperty('updateData')) {
       const dataHandler = SpreadsheetDataHandler.getInstance();
       await dataHandler.updateCells(result.updateData)
