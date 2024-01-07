@@ -109,12 +109,17 @@ function doBuy(item, amount, userId) {
           if (remainItem[0] === ' ' && isNaN(parseInt(remainItem)) === false) {
             chaItemArray[i] = item + ' ' + (parseInt(remainItem) + parseInt(preAmount))
             findFlag = true
-            break
+            console.log('findFlag TRUE 들어옴')
+            console.log('findFlag:', findFlag)
+            break;
           }
         }
       }
-      if (findFlag == false) {
+      console.log('if문 밖 findFlag:', findFlag)
+      if (findFlag === false) {
         chaItemArray.push(`프리미어볼 1`)
+        console.log('findFlag FALSE 들어옴')
+        console.log('findFlag:', findFlag)
       }
       // resultStr에 다시 돌려줌
       // 말이쉽지
