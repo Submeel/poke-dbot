@@ -83,17 +83,22 @@ function doSell(item, amount, userId) {
       return { 'code': -1, 'content': content }
     }
 
-    let minusItemCnt = parseInt(remainItem) - parseInt(amount)
-    if (minusItemCnt === 0) {
-      chaItemArray.splice(i, 1)
-    } else {
-      chaItemArray[i] = item + ' ' + minusItemCnt
-    }
-    let resultStr = ''
+    let minusItemCnt = null;
     for (let i = 0; i < chaItemArray.length; i++) {
-      resultStr += ', ' + chaItemArray[i].trim()
-    }
-    resultStr = resultStr.slice(2) //순회하며 다시 넣기
+      let findIdx = chaItemArray[i].trim().indexOf(item.trim())
+      if (findIdx === 0) {
+        let remainItem = chaItemArray[i].trim().slice(item.length)
+        if (remainItem[0] === ' ' && isNaN(parseInt(remainItem)) === false) {
+          let minusItemCnt = parseInt(remainItem) - parseInt(amount)
+          if (minusItemCnt === 0) {
+            chaItemArray.splice(i, 1)
+          } else {
+            chaItemArray[i] = item + ' ' + minusItemCnt
+          }
+          break
+        }
+      }
+    } //순회하며 다시 넣기
 
 
     // 5. 판매 승인 로직
