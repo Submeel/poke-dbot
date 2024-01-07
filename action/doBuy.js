@@ -102,11 +102,11 @@ function doBuy(item, amount, userId) {
       //유저아이템 복붙 시작
       let findFlag = false
       for (let i = 0; i < chaItemArray.length; i++) {
-        let findIdx = chaItemArray[i].trim().indexOf(item.trim())
+        let findIdx = chaItemArray[i].trim().indexOf('프리미어볼'.trim())
         if (findIdx === 0) {
-          let remainItem = chaItemArray[i].trim().slice(item.length)
+          let remainItem = chaItemArray[i].trim().slice('프리미어볼'.length)
           if (remainItem[0] === ' ' && isNaN(parseInt(remainItem)) === false) {
-            chaItemArray[i] = item + ' ' + (parseInt(remainItem) + parseInt(preAmount))
+            chaItemArray[i] = '프리미어볼' + ' ' + (parseInt(remainItem) + parseInt(preAmount))
             findFlag = true
             break
           }
@@ -114,7 +114,7 @@ function doBuy(item, amount, userId) {
       }
 
       if (findFlag == false) {
-        chaItemArray.push(`${item} ${preAmount}`)
+        chaItemArray.push(`프리미어볼 ${preAmount}`)
       }
 
       let resultStr = ''
@@ -140,7 +140,7 @@ function doBuy(item, amount, userId) {
 
     let itemP = getPostposition(item, '을', '를')
     let buyDesc = `${itemP} ${amount}개 구매했습니다!`
-    buyEmbed.description = `${buyDesc}+${bonusDesc}`
+    buyEmbed.description = `${buyDesc}`+`${bonusDesc}`
     content = { embeds: [buyEmbed] };
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords }
