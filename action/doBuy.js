@@ -12,12 +12,7 @@ function doBuy(item, amount, userId) {
     const itemRecords = sheetRecords['아이템']
     let content = null;
     let updateData = {};
-    //임베드 만들기    
-    const sellEmbed = {
-      title: `[판매:: ${item}]`,
-      color: 0xC10303,
-    };
-
+    
     // 2. 명령어를 입력한 유저의 아이디 판별
     let chaIdx = null; //캐릭터 찾기
     for (let i = 0; i < chaRecords.length; i++) {
@@ -27,7 +22,7 @@ function doBuy(item, amount, userId) {
       }
     }
 
-    let chaMoney = chaRecords[chaIdx]['소지금'] //유저 소지금
+    let chaMoney = parseInt(chaRecords[chaIdx]['소지금']) //유저 소지금
     console.log('구매 전 소지금:' + chaMoney)
     
 
@@ -53,90 +48,64 @@ function doBuy(item, amount, userId) {
     let updateCategoryCol = { '회복': 'H', '볼': 'I', '나무열매': 'J', '도구': 'K', '중요한물건': 'L' } // 아이템 카테고리 칼럼
     let category = itemRecords[itemIdx]['카테고리'] //소지품 카테고리에 맞춰서 추가
     let userItems = chaRecords[chaIdx][category] //유저가 판매하고자 하는 아이템이 소속된 셀 문자열 
-    let salePrice = itemRecords[itemIdx]['구매가']
+    let buyPrice = itemRecords[itemIdx]['구매가']
     let price = null;
     if (amount === null || amount === undefined || amount === ''){
       amount = 1
-      price = salePrice
+      price = buyPrice
     }else {
-      price = parseInt(salePrice) * parseInt(amount)
+      price = parseInt(buyPrice) * parseInt(amount)
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    // 4.amount > 가지고있는 아이템 개수 = '아이템이 부족합니다. 판매가 취소되었습니다.'
-    let chaItemArray = null;
-    if (userItems === null || userItems === undefined || userItems === '') {
-      const content = '소지품이 부족합니다.'
+    // 4. price > 가지고 있는 소지금 = '소지금이 부족합니다. 판매가 취소되었습니다.'
+        if (parseInt(price) > chaMoney) {
+      content = `${item} :: 소지금이 부족합니다! 구매가 취소되었습니다.`;
       return { 'code': -1, 'content': content }
     } else {
-      chaItemArray = userItems.split(',')
+      chaMoney = chaMoney - parseInt(price)
     } 
-    let remainItem = null;
-    for (let i = 0; i < chaItemArray.length; i++) {
-      let findIdx = chaItemArray[i].trim().indexOf(item.trim())
-      if (findIdx === 0) {
-        remainItem = chaItemArray[i].trim().slice(item.length)
-      }
-    }
-    if (parseInt(remainItem) < parseInt(amount)){
-      content = `${item} :: 아이템이 부족합니다! 판매가 취소되었습니다.`;
-      return { 'code': -1, 'content': content }
-    }
 
-    let minusItemCnt = null;
+    // 아이템 더하기 로직 복붙 돌리기
+    let findFlag = false
     for (let i = 0; i < chaItemArray.length; i++) {
       let findIdx = chaItemArray[i].trim().indexOf(item.trim())
       if (findIdx === 0) {
         let remainItem = chaItemArray[i].trim().slice(item.length)
         if (remainItem[0] === ' ' && isNaN(parseInt(remainItem)) === false) {
-          let minusItemCnt = parseInt(remainItem) - parseInt(amount)
-          if (minusItemCnt === 0) {
-            chaItemArray.splice(i, 1)
-          } else {
-            chaItemArray[i] = item + ' ' + minusItemCnt
-          }
+          chaItemArray[i] = item + ' ' + (parseInt(remainItem) + parseInt(amount))
+          findFlag = true
           break
         }
       }
-    } //userItem 복붙+ 1 대신 amount
-    
+    }
+
+    if (findFlag == false) {
+      chaItemArray.push(`${item} ${amount}`)
+    }
+
     let resultStr = ''
     for (let i = 0; i < chaItemArray.length; i++) {
       resultStr += ', ' + chaItemArray[i].trim()
     }
-    resultStr = resultStr.slice(2)//순회하며 다시 넣기
-
-
-
-			//유저의 '소지금'+ price = 최종 유저의 '소지금'
-    chaMoney = parseInt(chaMoney) + parseInt(price)
-	
+    resultStr = resultStr.slice(2)
 
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
     chaRecords[chaIdx][category] = resultStr
     chaRecords[chaIdx]['소지금'] = chaMoney
 
+    //임베드 만들기    
+    const buyEmbed = {
+      title: `[구매:: ${item}]`,
+      color: 0xC10303,
+      footer: {
+        text: `▶${chaRecords[chaIdx]['이름']}의 잔여 소지금 : \`${chaMoney} 원\``,
+      },
+    };
+
     let itemP = getPostposition(item, '을', '를')
-    let sellDesc = `${itemP} ${amount}개 판매했습니다! \n 소지금 : \`${chaMoney} 원\``
-
-
-    sellEmbed.description = `${sellDesc}`
-    content = { embeds: [sellEmbed] };
+    let buyDesc = `${itemP} ${amount}개 구매했습니다!`
+    buyEmbed.description = `${buyDesc}`
+    content = { embeds: [buyEmbed] };
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords }
 
