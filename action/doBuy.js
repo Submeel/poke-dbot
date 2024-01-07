@@ -108,7 +108,7 @@ function doBuy(item, amount, userId) {
         if (findIdx === 0) {
           let remainItem = chaItemArray[i].trim().slice(premierBall.length)
           if (remainItem[0] === ' ' && isNaN(parseInt(remainItem)) === false) {
-            chaItemArray[i] = item + ' ' + (parseInt(remainItem) + parseInt(preAmount))
+            chaItemArray[i] = premierBall + ' ' + (parseInt(remainItem) + parseInt(preAmount))
             findFlag = true
             break
           }
