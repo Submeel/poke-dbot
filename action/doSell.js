@@ -98,7 +98,13 @@ function doSell(item, amount, userId) {
           break
         }
       }
-    } //순회하며 다시 넣기
+    } 
+    
+    let resultStr = ''
+    for (let i = 0; i < chaItemArray.length; i++) {
+      resultStr += ', ' + chaItemArray[i].trim()
+    }
+    resultStr = resultStr.slice(2)//순회하며 다시 넣기
 
 
     // 5. 판매 승인 로직
@@ -113,7 +119,7 @@ function doSell(item, amount, userId) {
     //   return minusReturn
     // }
     // let userItemsMinus = minusReturn['content']
-    
+
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
     chaRecords[chaIdx][category] = userItemsMinus
     chaRecords[chaIdx]['소지금'] = chaMoney
