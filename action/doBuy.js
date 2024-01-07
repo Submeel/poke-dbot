@@ -66,10 +66,10 @@ function doBuy(item, amount, userId) {
     } 
 
     // 아이템 더하기 로직 복붙 돌리기
-    if (itemRecords === null || itemRecords === undefined || itemRecords === '') { // split 안함
+    if (userItems === null || userItems === undefined || userItems === '') { // split 안함
       chaItemArray = []
     } else {
-      chaItemArray = itemRecords.split(',')
+      chaItemArray = userItems.split(',')
     } 
     
     let findFlag = false
