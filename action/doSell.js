@@ -83,20 +83,33 @@ function doSell(item, amount, userId) {
       return { 'code': -1, 'content': content }
     }
 
+    let minusItemCnt = parseInt(remainItem) - parseInt(amount)
+    if (minusItemCnt === 0) {
+      chaItemArray.splice(i, 1)
+    } else {
+      chaItemArray[i] = item + ' ' + minusItemCnt
+    }
+    let resultStr = ''
+    for (let i = 0; i < chaItemArray.length; i++) {
+      resultStr += ', ' + chaItemArray[i].trim()
+    }
+    resultStr = resultStr.slice(2) //순회하며 다시 넣기
+
+
     // 5. 판매 승인 로직
 			// 1. 유저의 '소지금'+ price = 최종 유저의 '소지금'
     chaMoney = parseInt(chaMoney) + parseInt(price)
 			// 2. 유저의 item의 수량-amount = 최종 유저의 item 수량
-    let minusReturn = null;
-    for (let i = 0; i <= amount; i++) {
-      minusReturn = minusItem(item, userItems)
-      }    
-    if (minusReturn['code'] !== 0) {
-      return minusReturn
-    }
+    // let minusReturn = null;
+    // for (let i = 0; i <= amount; i++) {
+    //   minusReturn = minusItem(item, userItems)
+    //   }    
+    // if (minusReturn['code'] !== 0) {
+    //   return minusReturn
+    // }
 
     let userItemsMinus = minusReturn['content']
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsMinus, ['G' + (chaIdx + 3)]: chaMoney }
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
     chaRecords[chaIdx][category] = userItemsMinus
     chaRecords[chaIdx]['소지금'] = chaMoney
 
