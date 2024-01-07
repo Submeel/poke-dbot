@@ -66,6 +66,12 @@ function doBuy(item, amount, userId) {
     } 
 
     // 아이템 더하기 로직 복붙 돌리기
+    if (chaItemStr === null || chaItemStr === undefined || chaItemStr === '') { // split 안함
+      chaItemArray = []
+    } else {
+      chaItemArray = chaItemStr.split(',')
+    } 
+    
     let findFlag = false
     for (let i = 0; i < chaItemArray.length; i++) {
       let findIdx = chaItemArray[i].trim().indexOf(item.trim())
