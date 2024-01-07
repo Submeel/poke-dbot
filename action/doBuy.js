@@ -89,11 +89,11 @@ function doBuy(item, amount, userId) {
       chaItemArray.push(`${item} ${amount}`)
     }
 
-    let resultStr = ''
-    for (let i = 0; i < chaItemArray.length; i++) {
-      resultStr += ', ' + chaItemArray[i].trim()
-    }
-    resultStr = resultStr.slice(2)
+    // let resultStr = ''
+    // for (let i = 0; i < chaItemArray.length; i++) {
+    //   resultStr += ', ' + chaItemArray[i].trim()
+    // }
+    // resultStr = resultStr.slice(2)
 
     let bonusDesc = null;
     if(item === '몬스터볼' && amount >= 10){ //프리미어볼 amount/10 소숫점버림만큼 추가로 줌
@@ -119,19 +119,22 @@ function doBuy(item, amount, userId) {
       }
       console.log('chaItemArray', chaItemArray)
       // resultStr에 다시 돌려줌
-      let resultStr = ''
-      for (let i = 0; i < chaItemArray.length; i++) {
-        resultStr += ', ' + chaItemArray[i].trim()
-      }
-      resultStr = resultStr.slice(2)
+      }   
       // 말이쉽지
       if (findFlag == false) {
         console.log('프리미어볼 새로 지급 시작 ::')
         chaItemArray.push(`프리미어볼 ${preAmount}`)
       }
+
+    let resultStr = ''
+    for (let i = 0; i < chaItemArray.length; i++) {
+      resultStr += ', ' + chaItemArray[i].trim()
+    }
+    resultStr = resultStr.slice(2)
       
       //유저아이템 복붙 끝
     }
+    console.log('resultStr2:', resultStr)
 
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
     chaRecords[chaIdx][category] = resultStr
