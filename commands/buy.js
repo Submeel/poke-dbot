@@ -4,7 +4,7 @@ const SpreadsheetDataHandler = require('../sheet.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('판매')
+    .setName('구매')
     .setDescription('아이템을 판매합니다')
     .addStringOption(option =>
       option
@@ -15,7 +15,7 @@ module.exports = {
     .addIntegerOption(option =>
       option
         .setName('수량')
-        .setDescription('1이상 99이하의 정수로 판매할 수량을 입력해 주세요.')
+        .setDescription('1이상 99이하의 정수로 구매할 수량을 입력해 주세요.')
         .setRequired(true)
     )
   ,
