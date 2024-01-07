@@ -95,6 +95,36 @@ function doBuy(item, amount, userId) {
     }
     resultStr = resultStr.slice(2)
 
+    let bonusDesc = null;
+    if(item === '몬스터볼' && amount >= 10){ //프리미어볼 amount/10 소숫점버림만큼 추가로 줌
+      const preAmount = Math.floor(amount / 10);
+      bonusDesc = `\n\`\`\`"프리미어볼 ${preAmount}개를 서비스로 드리겠습니다!"\`\`\` ` //멘트추가
+      //유저아이템 복붙 시작
+      let findFlag = false
+      for (let i = 0; i < chaItemArray.length; i++) {
+        let findIdx = chaItemArray[i].trim().indexOf(item.trim())
+        if (findIdx === 0) {
+          let remainItem = chaItemArray[i].trim().slice(item.length)
+          if (remainItem[0] === ' ' && isNaN(parseInt(remainItem)) === false) {
+            chaItemArray[i] = item + ' ' + (parseInt(remainItem) + parseInt(preAmount))
+            findFlag = true
+            break
+          }
+        }
+      }
+
+      if (findFlag == false) {
+        chaItemArray.push(`${item} ${preAmount}`)
+      }
+
+      let resultStr = ''
+      for (let i = 0; i < chaItemArray.length; i++) {
+        resultStr += ', ' + chaItemArray[i].trim()
+      }
+      resultStr = resultStr.slice(2)
+      //유저아이템 복붙 끝
+    }
+
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
     chaRecords[chaIdx][category] = resultStr
     chaRecords[chaIdx]['소지금'] = chaMoney
@@ -102,7 +132,7 @@ function doBuy(item, amount, userId) {
     //임베드 만들기    
     const buyEmbed = {
       title: `[구매:: ${item}]`,
-      color: 0xC10303,
+      color: 0x5A95F5,
       footer: {
         text: `▶${chaRecords[chaIdx]['이름']}의 잔여 소지금 : ${chaMoney} 원`,
       },
@@ -110,7 +140,7 @@ function doBuy(item, amount, userId) {
 
     let itemP = getPostposition(item, '을', '를')
     let buyDesc = `${itemP} ${amount}개 구매했습니다!`
-    buyEmbed.description = `${buyDesc}`
+    buyEmbed.description = `${buyDesc}+${bonusDesc}`
     content = { embeds: [buyEmbed] };
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords }
