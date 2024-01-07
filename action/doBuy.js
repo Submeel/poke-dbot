@@ -89,14 +89,15 @@ function doBuy(item, amount, userId) {
       chaItemArray.push(`${item} ${amount}`)
     }
 
-    // let resultStr = ''
-    // for (let i = 0; i < chaItemArray.length; i++) {
-    //   resultStr += ', ' + chaItemArray[i].trim()
-    // }
-    // resultStr = resultStr.slice(2)
+    let resultStr = ''
+    for (let i = 0; i < chaItemArray.length; i++) {
+      resultStr += ', ' + chaItemArray[i].trim()
+    }
+    resultStr = resultStr.slice(2)
 
     let bonusDesc = null;
     if(item === '몬스터볼' && amount >= 10){ //프리미어볼 amount/10 소숫점버림만큼 추가로 줌
+      console.log('프리미어볼 추가 지급 시작 ::') 
       const preAmount = Math.floor(amount / 10);
       bonusDesc = `\n\`\`\`"프리미어볼 ${preAmount}개를 서비스로 드리겠습니다!"\`\`\` ` //멘트추가
       //유저아이템 복붙 시작
@@ -109,32 +110,30 @@ function doBuy(item, amount, userId) {
           if (remainItem[0] === ' ' && isNaN(parseInt(remainItem)) === false) {
             chaItemArray[i] = item + ' ' + (parseInt(remainItem) + parseInt(preAmount))
             findFlag = true
-            console.log('findFlag TRUE 들어옴')
-            console.log('findFlag:', findFlag)
-            break;
+            break
           }
         }
       }
-      console.log('if문 밖 findFlag:', findFlag)
-      if (findFlag === false) {
-        chaItemArray.push(`프리미어볼 1`)
-        console.log('findFlag FALSE 들어옴')
-        console.log('findFlag:', findFlag)
-      }
-      // resultStr에 다시 돌려줌
-      // 말이쉽지
       if (findFlag == false) {
         chaItemArray.push(`프리미어볼 ${preAmount}`)
-      }      
+      }
+      console.log('resultStr:', resultStr )
+      console.log('chaItemArray', chaItemArray)
+      // resultStr에 다시 돌려줌
+      let resultStr = ''
+      for (let i = 0; i < chaItemArray.length; i++) {
+        resultStr += ', ' + chaItemArray[i].trim()
+      }
+      resultStr = resultStr.slice(2)
+      // 말이쉽지
+      if (findFlag == false) {
+        console.log('프리미어볼 새로 지급 시작 ::')
+        chaItemArray.push(`프리미어볼 ${preAmount}`)
+      }
+      
       //유저아이템 복붙 끝
     }
 
-    let resultStr = ''
-    for (let i = 0; i < chaItemArray.length; i++) {
-      resultStr += ', ' + chaItemArray[i].trim()
-    }
-    resultStr = resultStr.slice(2)
-    
     updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: resultStr, ['G' + (chaIdx + 3)]: chaMoney }
     chaRecords[chaIdx][category] = resultStr
     chaRecords[chaIdx]['소지금'] = chaMoney
