@@ -46,11 +46,11 @@ function doAdv(keyword, userId) {
         totalWeight += parseInt(advRecords[i]['가중치'])
       }
 
-      if (advRecords[selectIdxArray[pickIdx]]['해금'] === keyword) { //advRecords[selectIdxArray[pickIdx]]['발견자']
+      if (advRecords[i]['해금'] === keyword) { //advRecords[selectIdxArray[pickIdx]]['발견자']
         if (authUserStr === null) {
-          authUserStr = advRecords[selectIdxArray[pickIdx]]['발견자']
+          authUserStr = advRecords[i]['발견자']
         } else {
-          authUserStr += '/' + advRecords[selectIdxArray[pickIdx]]['발견자']
+          authUserStr += '/' + advRecords[i]['발견자']
         }
       }
     }
