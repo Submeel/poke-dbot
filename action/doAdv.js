@@ -46,7 +46,7 @@ function doAdv(keyword, userId) {
         totalWeight += parseInt(advRecords[i]['가중치'])
       }
 
-      if (advRecords[i]['해금'] === keyword) { //advRecords[selectIdxArray[pickIdx]]['발견자']
+      if (advRecords[i]['해금'] === keyword) {
         if (authUserStr === null) {
           authUserStr = advRecords[i]['발견자']
         } else {
@@ -180,9 +180,9 @@ function doAdv(keyword, userId) {
     if (advRecords[selectIdxArray[pickIdx]]['해금'] !== '' && advRecords[selectIdxArray[pickIdx]]['해금'] !== undefined) {
       let unlockUserIdStr = advRecords[selectIdxArray[pickIdx]]['발견자']
       if (unlockUserIdStr === '' || unlockUserIdStr === undefined || unlockUserIdStr === null) {
-        unlockUserIdStr = '0/' + userId 
+        unlockUserIdStr = '0/' + userId +'/'
       } else {
-        unlockUserIdStr += '/' + userId  
+        unlockUserIdStr += userId + '/' 
       }
       updateData['모험'] = { ['F' + (selectIdxArray[pickIdx] + 3)]: unlockUserIdStr }
       advRecords[selectIdxArray[pickIdx]]['발견자'] = unlockUserIdStr
