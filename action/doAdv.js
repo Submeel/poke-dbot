@@ -113,7 +113,7 @@ function doAdv(keyword, userId) {
     content = { embeds: [advEmbed] };
 
     //4-1. 배틀은 한 번 사용하면 더 사용할 수 없게 한다! (나무흔들기 등 채집 관련 명령어는 상관 없을듯 하여...)
-    if ('배틀' === keyword || '꿀나무흔들기' === keyword){
+    if ('배틀' === keyword || '꿀나무흔들기' === keyword || '승부' === keyword){
       let unlockKeywordIdx = null;
       for (let i = 0; i < advRecords.length; i++) {
       if ('' + keyword === '' + advRecords[i]['해금']) {
@@ -293,7 +293,7 @@ function doAdv(keyword, userId) {
       }
 
       let chaNowMoney = parseInt(chaRecords[chaIdx]['소지금'])
-      console.log('소지금:', chaNowHp)
+      console.log('소지금:', chaNowMoney)
       chaNowMoney = chaNowMoney - getMoney
       console.log('용돈 받은 소지금:', chaNowMoney)
       chaRecords[chaIdx]['소지금'] = chaNowMoney
@@ -302,7 +302,7 @@ function doAdv(keyword, userId) {
       return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': isNeedThread, 'threadDesc': threadDesc }
 
     }
-    
+
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': isNeedThread, 'threadDesc': threadDesc }
 
   } catch (e) {
