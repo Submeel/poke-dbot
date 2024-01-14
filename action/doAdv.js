@@ -113,7 +113,7 @@ function doAdv(keyword, userId) {
     content = { embeds: [advEmbed] };
 
     //4-1. 배틀은 한 번 사용하면 더 사용할 수 없게 한다! (나무흔들기 등 채집 관련 명령어는 상관 없을듯 하여...)
-    if ('배틀' === keyword || '꿀나무흔들기' === keyword || '승부' === keyword){
+    if ('배틀' === keyword || '꿀나무흔들기' === keyword){
       let unlockKeywordIdx = null;
       for (let i = 0; i < advRecords.length; i++) {
       if ('' + keyword === '' + advRecords[i]['해금']) {
@@ -254,8 +254,6 @@ function doAdv(keyword, userId) {
       updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd, ['R' + (chaIdx + 3)]: count + 1  }
     }
 
-    console.log(`advRecords[selectIdxArray[pickIdx]]['피해']:`, advRecords[selectIdxArray[pickIdx]]['피해'])
-    
     // 9. 만약 '피해'에 값이 있으면, 해당 유저의 HP를 감소시킨다.
     if (advRecords[selectIdxArray[pickIdx]]['피해'] !== '' && advRecords[selectIdxArray[pickIdx]]['피해'] !== undefined && advRecords[selectIdxArray[pickIdx]]['피해'] !== null) {
       let damage = parseInt(advRecords[selectIdxArray[pickIdx]]['피해'])
@@ -301,10 +299,13 @@ function doAdv(keyword, userId) {
       chaRecords[chaIdx]['소지금'] = chaNowMoney
       updateData['캐릭터'] = { ['G' + (chaIdx + 3)]: chaNowMoney }
 
+      return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': isNeedThread, 'threadDesc': threadDesc }
+
+    }
+    
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': isNeedThread, 'threadDesc': threadDesc }
 
-  }
-} catch (e) {
+  } catch (e) {
     //에러 처리
     const content =
       `doAdv 에러. 메시지를 캡처해 서버장에게 문의해 주세요. \nname:${e.name}\nmessage:${e.message}\nstack:${e.stack}`
