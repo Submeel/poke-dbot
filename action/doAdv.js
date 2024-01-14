@@ -294,7 +294,7 @@ function doAdv(keyword, userId) {
 
       let chaNowMoney = parseInt(chaRecords[chaIdx]['소지금'])
       console.log('소지금:', chaNowMoney)
-      chaNowMoney = chaNowMoney - getMoney
+      chaNowMoney = chaNowMoney + getMoney
       console.log('용돈 받은 소지금:', chaNowMoney)
       chaRecords[chaIdx]['소지금'] = chaNowMoney
       updateData['캐릭터'] = { ['G' + (chaIdx + 3)]: chaNowMoney }
