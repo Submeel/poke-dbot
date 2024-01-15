@@ -95,7 +95,7 @@ function doBuy(item, amount, userId) {
     // }
     // resultStr = resultStr.slice(2)
 
-    let bonusDesc = null;
+    let bonusDesc = '';
     if(item === '몬스터볼' && amount >= 10){ //프리미어볼 amount/10 소숫점버림만큼 추가로 줌
       console.log('프리미어볼 추가 지급 시작 ::') 
       const preAmount = Math.floor(amount / 10);
