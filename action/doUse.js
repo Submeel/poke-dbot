@@ -69,7 +69,7 @@ function doUse(item, userId) {
     
 
     // 사용시 스탯 증감이 있는 경우 + 누적 경험치
-    if (itemRecords[itemIdx]['스탯'].trim() === '경험치' || itemRecords[itemIdx]['스탯'].trim() === '체력'){
+    if (itemRecords[itemIdx]['스탯'].trim() === '경험치' || itemRecords[itemIdx]['스탯'].trim() === '체력' || itemRecords[itemIdx]['스탯'].trim() === '진화'){
       if (itemRecords[itemIdx]['증가'] === null || itemRecords[itemIdx]['증가'] === undefined || itemRecords[itemIdx]['증가'] === ''){
         content = '스프레드 시트에 증감치 정보가 존재하지 않습니다! 서버장에게 문의해 주세요.'; //나중에 다시보기
         return { 'code': -1, 'content': content }
