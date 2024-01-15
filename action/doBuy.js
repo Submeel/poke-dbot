@@ -120,11 +120,11 @@ function doBuy(item, amount, userId) {
       console.log('chaItemArray', chaItemArray)
       // resultStr에 다시 돌려줌
       }   
-      // 말이쉽지
-      if (findFlag == false) {
-        console.log('프리미어볼 새로 지급 시작 ::')
-        chaItemArray.push(`프리미어볼 ${preAmount}`)
-      }
+      // // 말이쉽지
+      // if (findFlag == false) {
+      //   console.log('프리미어볼 새로 지급 시작 ::')
+      //   chaItemArray.push(`프리미어볼 ${preAmount}`)
+      // }
 
     let resultStr = ''
     for (let i = 0; i < chaItemArray.length; i++) {
