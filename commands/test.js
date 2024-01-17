@@ -22,9 +22,9 @@ module.exports = {
     }
     try {
       const embeds = result.content.embeds;
-      // for (let i = 0; i < 4; i++) {
-      //   embeds.push(new EmbedBuilder().setDescription(`This is page ${i + 1}`));
-      // }
+      for (let i = 0; i < 4; i++) {
+        embeds.push(new EmbedBuilder().setDescription(`This is page ${i + 1}`));
+      }
 
       console.log('embeds lenght:', embeds.length)
       await buttonPagination(interaction, embeds);
