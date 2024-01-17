@@ -220,7 +220,7 @@ function doTest(userId) {
     }
 
 
-    content = { embeds: [boxEmbed] };
+    content = { embeds: [boxEmbed][boxPkmEmbed] };
 
 
     let pkmLvSum = 0;
