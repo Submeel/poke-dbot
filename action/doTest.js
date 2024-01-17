@@ -1,97 +1,252 @@
 const SpreadsheetDataHandler = require('../sheet.js');
-const { minusItem } = require('../userItem.js');
-const { getPostposition } = require('../getPostposition.js');
 const _ = require('lodash');
+const { EmbedBuilder } = require('discord.js');
 
-function doTest(item, amount, userId) {
+function doBox(userId) {
   try {
-    console.log('doTest 시작::')
-    // 1. 캐릭터 시트 + 판매 중인 아이템 시트 받아오기
+    console.log('doBox 시작::')
     const dataHandler = SpreadsheetDataHandler.getInstance();
     let sheetRecords = _.cloneDeep(dataHandler.sheetRecords);
     const chaRecords = sheetRecords['캐릭터']
-    const itemRecords = sheetRecords['아이템']
+    console.log(chaRecords)
     let content = null;
     let updateData = {};
-    //임베드 만들기    
-    const sellEmbed = {
-      title: `[판매:: ${item}]`,
-      color: 0xC10303,
-    };
 
-    // 2. 명령어를 입력한 유저의 아이디 판별
-    let chaIdx = null; //캐릭터 찾기
+    // 메시지를 보낸 유저의 아이디를 읽어서 시트의 몇 번째 행인지 확인
+    let chaIdx = null;
     for (let i = 0; i < chaRecords.length; i++) {
       if ('' + userId === '' + chaRecords[i]['아이디']) {
         chaIdx = i;
         break;
       }
     }
+    // 메시지를 보낸 유저의 아이디를 읽어서 시트의 몇 번째 행인지 확인 끝
 
-    let chaMoney = chaRecords[chaIdx]['소지금'] //유저 소지금
-    console.log('판매 전 소지금:' + chaMoney)
+    //각 항목 읽기 시작
+    let chaName = chaRecords[chaIdx]['이름']
+    if (chaName === undefined || chaName === '') {
+      content = '이름 공란';
+      return { 'code': -1, 'content': content }
+    } //이름 끝
 
-
-    // 3. 유저가 입력한 아이템이 판매중인 아이템인지 확인(for문 돌리기이)
-    let itemIdx = null
-    for (let i = 0; i < itemRecords.length; i++) {
-      if (itemRecords[i]['아이템명'].trim() === item.trim()) {
-        itemIdx = i
-        break
+    let allPkm = chaRecords[chaIdx]['포켓몬'] //포켓몬 열 읽기    
+    let allPkmObjs = JSON.parse(allPkm)
+    let pokemonStr = ''
+    for (let i = 0; i < allPkmObjs.length; i++) {
+      let pokeBase = ''
+      //볼 종류 이모지로 변환
+      let ballEmoji;
+      switch (allPkmObjs[i]['볼']) {
+        case "몬스터볼":
+          ballEmoji = "<:pokeball:1158350172858892358>";
+          break;
+        case "슈퍼볼":
+          ballEmoji = "<:superball:1161877293363376178>";
+          break;
+        case "하이퍼볼":
+          ballEmoji = "<:hyperball:1161877368135225344>";
+          break;
+        case "마스터볼":
+          ballEmoji = "<:masterball:1161877493914026088>";
+          break;
+        case "레벨볼":
+          ballEmoji = "<:levelball:1161877610901536788>";
+          break;
+        case "문볼":
+          ballEmoji = "<:moonball:1161877863692238928>";
+          break;
+        case "루어볼":
+          ballEmoji = "<:lureball:1161877954729623652>";
+          break;
+        case "프렌드볼":
+          ballEmoji = "<:friendball:1161878044777123850>";
+          break;
+        case "러브러브볼":
+          ballEmoji = "<:loveloveball:1161878139069268068>";
+          break;
+        case "스피드볼":
+          ballEmoji = "<:speedball:1161878239552217118>";
+          break;
+        case "헤비볼":
+          ballEmoji = "<:heavyball:1161878319176896572>";
+          break;
+        case "프리미어볼":
+          ballEmoji = "<:premierball:1161878692776124416>";
+          break;
+        case "네트볼":
+          ballEmoji = "<:netball:1161878770316222516>";
+          break;
+        case "네스트볼":
+          ballEmoji = "<:nestball:1161878866969767947>";
+          break;
+        case "리피트볼":
+          ballEmoji = "<:repeatball:1161879020519030906>";
+          break;
+        case "타이머볼":
+          ballEmoji = "<:timerball:1161879114651807767>";
+          break;
+        case "럭셔리볼":
+          ballEmoji = "<:luxuryball:1161879191969599499>";
+          break;
+        case "다이브볼":
+          ballEmoji = "<:diveball:1161879279521505391>";
+          break;
+        case "힐볼":
+          ballEmoji = "<:healball:1161879369556439111>";
+          break;
+        case "퀵볼":
+          ballEmoji = "<:quickball:1161879454293971044>";
+          break;
+        case "다크볼":
+          ballEmoji = "<:darkball:1161879536498131024>";
+          break;
+      }//볼 종류 이모지로 변환 끝
+      if (allPkmObjs[i]['파티'] === 'true') {//지닌 포켓몬
+        if (allPkmObjs[i]['이름'].toString().trim() !== allPkmObjs[i]['종류'].toString().trim()) { pokeBase = '(' + allPkmObjs[i]['종류'] + ')' }
+        pokemonStr += `${ballEmoji}` + allPkmObjs[i]['이름'] + `${pokeBase}` + ': Lv. ' + allPkmObjs[i]['레벨'] + ' | 경험치: ' + allPkmObjs[i]['경험치'] + ',\n'
       }
     }
-    if (itemIdx === null) { //아이템이 db에 없을 경우
-      content = `${item} :: 올바른 아이템 이름이 아닙니다!`;
+    pokemonStr = pokemonStr.slice(0, -2)
+
+
+    let boxPokemonStr = ''
+    for (let i = 0; i < allPkmObjs.length; i++) {
+      let pokeBase = ''//볼 종류 이모지로 변환
+      let ballEmoji;
+      switch (allPkmObjs[i]['볼']) {
+        case "몬스터볼":
+          ballEmoji = "<:pokeball:1158350172858892358>";
+          break;
+        case "슈퍼볼":
+          ballEmoji = "<:superball:1161877293363376178>";
+          break;
+        case "하이퍼볼":
+          ballEmoji = "<:hyperball:1161877368135225344>";
+          break;
+        case "마스터볼":
+          ballEmoji = "<:masterball:1161877493914026088>";
+          break;
+        case "레벨볼":
+          ballEmoji = "<:levelball:1161877610901536788>";
+          break;
+        case "문볼":
+          ballEmoji = "<:moonball:1161877863692238928>";
+          break;
+        case "루어볼":
+          ballEmoji = "<:lureball:1161877954729623652>";
+          break;
+        case "프렌드볼":
+          ballEmoji = "<:friendball:1161878044777123850>";
+          break;
+        case "러브러브볼":
+          ballEmoji = "<:loveloveball:1161878139069268068>";
+          break;
+        case "스피드볼":
+          ballEmoji = "<:speedball:1161878239552217118>";
+          break;
+        case "헤비볼":
+          ballEmoji = "<:heavyball:1161878319176896572>";
+          break;
+        case "프리미어볼":
+          ballEmoji = "<:premierball:1161878692776124416>";
+          break;
+        case "네트볼":
+          ballEmoji = "<:netball:1161878770316222516>";
+          break;
+        case "네스트볼":
+          ballEmoji = "<:nestball:1161878866969767947>";
+          break;
+        case "리피트볼":
+          ballEmoji = "<:repeatball:1161879020519030906>";
+          break;
+        case "타이머볼":
+          ballEmoji = "<:timerball:1161879114651807767>";
+          break;
+        case "럭셔리볼":
+          ballEmoji = "<:luxuryball:1161879191969599499>";
+          break;
+        case "다이브볼":
+          ballEmoji = "<:diveball:1161879279521505391>";
+          break;
+        case "힐볼":
+          ballEmoji = "<:healball:1161879369556439111>";
+          break;
+        case "퀵볼":
+          ballEmoji = "<:quickball:1161879454293971044>";
+          break;
+        case "다크볼":
+          ballEmoji = "<:darkball:1161879536498131024>";
+          break;
+      }//볼 종류 이모지로 변환 끝
+      if (allPkmObjs[i]['파티'] === 'false') {//박스 포켓몬
+        if (allPkmObjs[i]['이름'].toString().trim() !== allPkmObjs[i]['종류'].toString().trim()) { pokeBase = '(' + allPkmObjs[i]['종류'] + ')' }
+        boxPokemonStr += `${ballEmoji}` + allPkmObjs[i]['이름'] + `${pokeBase}` + ': Lv. ' + allPkmObjs[i]['레벨'] + ' | 경험치: ' + allPkmObjs[i]['경험치'] + ',\n'
+      }
+    }
+    boxPokemonStr = boxPokemonStr.slice(0, -2)
+
+    if (allPkm === undefined || allPkm === '') {
+      content = '포켓몬 공란';
       return { 'code': -1, 'content': content }
+    } //포켓몬 끝
+
+
+
+    //임베드 만들기
+    const boxEmbed = {
+      color: 0x5A95F5,
+      title: `:: ${chaName}의 PC`,
+      fields: [
+        {
+          name: ':ballot_box_with_check:지닌 포켓몬',
+          value: pokemonStr,
+          inline: false,
+        },
+        {
+          name: ':computer:박스',
+          value: boxPokemonStr,
+          inline: false,
+        },
+      ],
+      timestamp: new Date().toISOString(),
+      footer: {
+        text: '시즌 0. 담청의 파도',
+        icon_url: 'https://cdn.discordapp.com/attachments/1158755179823378523/1185900135943770242/bot_p.png',
+      },
+    };
+    content = { embeds: [boxEmbed] };
+
+
+    let pkmLvSum = 0;
+
+    for (let pkm of allPkmObjs) {
+      if (pkm["파티"] === "true") {
+        pkmLvSum += pkm["레벨"];
+      }
     }
-    let updateCategoryCol = { '회복': 'H', '볼': 'I', '나무열매': 'J', '도구': 'K', '중요한물건': 'L' } // 아이템 카테고리 칼럼
-    let category = itemRecords[itemIdx]['카테고리'] //소지품 카테고리에 맞춰서 추가
-    let userItems = chaRecords[chaIdx][category] //유저가 판매하고자 하는 아이템이 소속된 셀 문자열 
-    let salePrice = itemRecords[itemIdx]['판매가']
-    let price = null;
-    if (amount === null || amount === undefined || amount === '') {
-      amount = 1
-      price = salePrice
-    } else {
-      price = salePrice * amount
+
+    let chaNowMaxHp = pkmLvSum * 6;
+    console.log('chaNowMaxHp:', chaNowMaxHp)
+
+    let chaNowHp = parseInt(chaRecords[chaIdx]['현재 체력'])
+    if (chaNowHp > chaNowMaxHp) {
+      chaNowHp = chaNowMaxHp
     }
-    // 4. → 1차 메시지 전송`${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]`
-    let sellDesc = ``
-    if (itemIdx !== null) {
-      sellDesc = `${item}:: ${amount}개 판매하시겠습니까? [ ${price}원 ]\n현재 소지금: \`${chaMoney}원\``
-    } 
 
-    sellEmbed.description = `${sellDesc}`
-    content = { embeds: [sellEmbed] };
-
-    // 2. 버튼 체크하기
-    // 3. 응답시간 초과일 경우 판매 취소 
-    // 5. 판매 승인 로직
-    // 5-1. 유저의 '소지금'+ price = 최종 유저의 '소지금'
-    // 5-2. 유저의 item의 수량-amount = 최종 유저의 item 수량
-    // for (let i = 0; i <= amount; i++) {
-    //   function minusItem(item, userItems)
-    //   }
-    // 5-2-1. 만약 최종 유저의 item 수량 > 0 이 된다면 그냥 아이템+수량 통째로 텍스트를 뺀 것을 최종 유저의 '아이템'으로 변환
-    // 5-2-2. 만약 최종 유저의 item 수량 = 0 이 된다면 해당 item에 "수량"을 뺀 것을 최종 유저의 '아이템'으로 변환
-    // 5-2-3. 그 외의 경우 (최종 유저 item의 수량 < 0 이 된다면) content = '아이템이 부족합니다. 판매가 취소되었습니다.'
-    // 5-3. 최종 유저의 '소지금'과 최종 유저의 '아이템'을 업데이트한다
-
-
-    sellEmbed.description = `${sellDesc}`
-    content = { embeds: [sellEmbed] };
+    updateData['캐릭터'] = { ['E' + (chaIdx + 3)]: chaNowMaxHp, ['F' + (chaIdx + 3)]: chaNowHp }
+    chaRecords[chaIdx]['최대 체력'] = chaNowMaxHp // 캐릭터 최대체력 업데이트
+    chaRecords[chaIdx]['현재 체력'] = chaNowHp // 캐릭터 현재체력 업데이트
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords }
-
 
   } catch (e) {
     //에러 처리
     const content =
-      `doTest 에러. 메시지를 캡처해 서버장에게 문의해 주세요. \nname:${e.name}\nmessage:${e.message}\nstack:${e.stack}`
+      `doBox 에러. 메시지를 캡처해 서버장에게 문의해 주세요. \nname:${e.name}\nmessage:${e.message}\nstack:${e.stack}`
     return { 'code': -1, 'content': content }
   }
 }
 
 module.exports = {
-  doTest,
+  doBox,
 };

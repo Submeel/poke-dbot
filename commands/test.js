@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { doBox } = require('../action/doBox');
+const { doTest } = require('../action/doTest');
 const buttonPagination = require('../buttonPagination');
 const SpreadsheetDataHandler = require('../sheet.js');
 
@@ -12,7 +12,7 @@ module.exports = {
 
   async execute(interaction) {
     const userId = interaction.user.id;
-    let result = doBox(userId)
+    let result = doTest(userId)
     if (result.hasOwnProperty('updateData')) {
       console.log('updateData:', result.upadteData)
       // 업데이트
