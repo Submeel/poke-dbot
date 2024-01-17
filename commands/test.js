@@ -21,8 +21,8 @@ module.exports = {
       dataHandler.sheetRecords = result.sheetRecords
     }
     try {
-      //const embeds = [];
-      const embeds = result.content.embeds;
+      const embeds = [];
+      // const embeds = result.content.embeds;
       for (let i = 0; i < result.content.embeds.length; i++) {
         embeds.push(result.content.embeds[i]);
       }
