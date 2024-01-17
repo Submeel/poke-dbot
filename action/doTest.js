@@ -2,9 +2,9 @@ const SpreadsheetDataHandler = require('../sheet.js');
 const _ = require('lodash');
 const { EmbedBuilder } = require('discord.js');
 
-function doBox(userId) {
+function doTest(userId) {
   try {
-    console.log('doBox 시작::')
+    console.log('doTest 시작::')
     const dataHandler = SpreadsheetDataHandler.getInstance();
     let sheetRecords = _.cloneDeep(dataHandler.sheetRecords);
     const chaRecords = sheetRecords['캐릭터']
@@ -242,11 +242,11 @@ function doBox(userId) {
   } catch (e) {
     //에러 처리
     const content =
-      `doBox 에러. 메시지를 캡처해 서버장에게 문의해 주세요. \nname:${e.name}\nmessage:${e.message}\nstack:${e.stack}`
+      `doTest 에러. 메시지를 캡처해 서버장에게 문의해 주세요. \nname:${e.name}\nmessage:${e.message}\nstack:${e.stack}`
     return { 'code': -1, 'content': content }
   }
 }
 
 module.exports = {
-  doBox,
+  doTest,
 };
