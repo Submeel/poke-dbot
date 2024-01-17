@@ -23,7 +23,7 @@ module.exports = {
     try {
       const embeds = [];
       // const embeds = result.content.embeds;
-      for (let i = 0; i < embeds.length; i++) {
+      for (let i = 0; i < embeds.length+1; i++) {
         embeds.push(result.content.embeds[i]);
       }
 
