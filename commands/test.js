@@ -23,8 +23,8 @@ module.exports = {
     try {
       const embeds = [];
       // const embeds = result.content.embeds;
-      for (let i = 0; i < embeds.length+1; i++) {
-        embeds.push(result.content.embeds);
+      for (let i = 0; i < result.content.embeds.length; i++) {
+        embeds.push(result.content.embeds[i]);
       }
 
       console.log('embeds lenght:', embeds.length)
