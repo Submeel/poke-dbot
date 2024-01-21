@@ -109,6 +109,12 @@ function doTest(userId) {
     pokemonStr = pokemonStr.slice(0, -2)
 
 
+    let boxPkmObjs = allPkmObjs.filter(pkmObj => pkmObj['파티'] === 'false');
+    let firstFourBoxPkm = selectedPkmObjs.slice(0, 4);
+    let remainingBoxPkm = selectedPkmObjs.slice(4);
+    console.log('firstFourBoxPkm', firstFourBoxPkm)
+    console.log('remainingBoxPkm', remainingBoxPkm)
+
     let boxPokemonStr = ''
     for (let i = 0; i < allPkmObjs.length; i++) {
       let pokeBase = ''//볼 종류 이모지로 변환
