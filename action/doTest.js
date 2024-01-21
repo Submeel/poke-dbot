@@ -109,6 +109,7 @@ function doTest(userId) {
     pokemonStr = pokemonStr.slice(0, -2)
 
 
+    k = 0
     let boxPokemonStr = []
     for (let i = 0; i < allPkmObjs.length; i++) {
       let pokeBase = ''//볼 종류 이모지로 변환
