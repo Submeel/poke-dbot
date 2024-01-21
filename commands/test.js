@@ -22,13 +22,13 @@ module.exports = {
     }
     try {
       // const embeds = [];
-      //const embeds = result.content.embeds;
-      // for (let i = 0; i < 4; i++) {
-      //   embeds.push(new EmbedBuilder().setDescription(`This is page ${i + 1}`));
-      // }
       const embeds = result.content.embeds;
-      for (let i = 0; i < result.content.embeds.length; i++) {
-        embeds.push(result.content.embeds[i]);
+      for (let i = 0; i < 4; i++) {
+        embeds.push(new EmbedBuilder().setDescription(`This is page ${i + 1}`));
+      // }
+      // const embeds = result.content.embeds;
+      // for (let i = 0; i < result.content.embeds.length; i++) {
+      //   embeds.push(result.content.embeds[i]);
       }
 
       console.log('embeds lenght:', embeds.length)
