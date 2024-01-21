@@ -109,7 +109,7 @@ function doTest(userId) {
     pokemonStr = pokemonStr.slice(0, -2)
 
 
-    let boxPokemonStr = []
+    let boxPokemonStr = ''
     for (let i = 0; i < allPkmObjs.length; i++) {
       let pokeBase = ''//볼 종류 이모지로 변환
       let ballEmoji;
@@ -178,20 +178,12 @@ function doTest(userId) {
           ballEmoji = "<:darkball:1161879536498131024>";
           break;
       }//볼 종류 이모지로 변환 끝
-      if(i <= 4){
-        k = 0
-      }else{
-        k = i(i - 4) % 10 + 1
-      }
-      boxPokemonStr[k] = ''
       if (allPkmObjs[i]['파티'] === 'false') {//박스 포켓몬
         if (allPkmObjs[i]['이름'].toString().trim() !== allPkmObjs[i]['종류'].toString().trim()) { pokeBase = '(' + allPkmObjs[i]['종류'] + ')' }
-        boxPokemonStr[k] += `${ballEmoji}` + allPkmObjs[i]['이름'] + `${pokeBase}` + ': Lv. ' + allPkmObjs[i]['레벨'] + ' | 경험치: ' + allPkmObjs[i]['경험치'] + ',\n'
+        boxPokemonStr += `${ballEmoji}` + allPkmObjs[i]['이름'] + `${pokeBase}` + ': Lv. ' + allPkmObjs[i]['레벨'] + ' | 경험치: ' + allPkmObjs[i]['경험치'] + ',\n'
       }
     }
-    for (let i = 0; i < k; i++){
-      boxPokemonStr[i] = boxPokemonStr.slice(0, -2)
-    }
+    boxPokemonStr = boxPokemonStr.slice(0, -2)
 
     if (allPkm === undefined || allPkm === '') {
       content = '포켓몬 공란';
@@ -212,7 +204,7 @@ function doTest(userId) {
         },
         {
           name: ':computer:박스',
-          value: boxPokemonStr[0],
+          value: boxPokemonStr,
           inline: false,
         },
       ],
