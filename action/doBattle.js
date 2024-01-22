@@ -69,6 +69,7 @@ function doBattle(targetName, userId) {
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': true}
 
+    
 
   } catch (e) {
     //에러 처리
