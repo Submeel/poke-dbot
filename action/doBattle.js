@@ -28,7 +28,7 @@ function doBattle(targetName, userId) {
     }
     
     // 1-2. 시트에 배틀 대상이 누락된 경우 -> 배틀을 시작할 수 없음
-    if (chaRecords[chaIdx]['승부 대상'] == ''){
+    if (chaRecords[chaIdx]['승부 대상'] === '' || chaRecords[chaIdx]['승부 대상'] === null || chaRecords[chaIdx]['승부 대상'] === undefined){
       content = '배틀 할 수 있는 트레이너가 없습니다. 상대를 찾아주세요.'
       return { 'code': -1, 'content': content }
     }
@@ -38,7 +38,7 @@ function doBattle(targetName, userId) {
     // 2. 배틀 탭에서 데이터 찾기
     let battleIdx = null 
     for (let i = 0; i < battleRecords.length; i++) {
-      if (`${targetName}` === '' + battleRecords[i]['이름']) {
+      if (targetName === '' + battleRecords[i]['이름']) {
         battleIdx = i;
         break;
       }
