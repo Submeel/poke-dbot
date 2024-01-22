@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const SpreadsheetDataHandler = require('../sheet.js');
+const { getPostposition } = require('../getPostposition.js');
 
 async function useSkill(keywords, userId){
   try{
@@ -99,7 +100,9 @@ async function useSkill(keywords, userId){
     let targetHpTobe = targetHp - monDamage
     if (targetHpTobe <= 0 ) targetHpTobe = 0
     
-    content = `${monName}의 기술 사용! 데미지: ${monDamage}. ${targetName}의 남은 체력: ${targetHpTobe}`
+    let monNameP = getPostposition(monName, '이', '가')
+    content = `▶${chaRecords[chaIdx]['이름']}의 ${monNameP} 기술을 사용했다!\n ${targetName}의 포켓몬에게 ${monDamage}만큼 피해를 입혔다! 
+    ${targetName}의 남은 체력: ${targetHpTobe}`
     // 6-2-1. 유저->적 단계에서 적 hp가 0이 되면 이후 스텝 밟지 않고 바로 전투 종료처리한다.
     // 러너와 적의 hp 리셋. 각자의 누구와 전투 중이었는지 기록하는 셀 리셋.
     // 러너 승리이므로 경험치, 누적 경험치, 소지금 획득(증가)
@@ -127,7 +130,7 @@ async function useSkill(keywords, userId){
                             } 
       
       
-      content += `\n\n${chaRecords[chaIdx]['이름']}의 승리. 경험치: ${addExp}, 용돈:${addMoney}을 획득합니다. 승부를 종료합니다.`
+      content += `\n\n${chaRecords[chaIdx]['이름']}의 승리! \n경험치를 ${addExp} 획득했다! \n용돈을 ${addMoney}원 획득했다! \n▶승부 종료.`
       return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords}
     } 
 
@@ -144,7 +147,8 @@ async function useSkill(keywords, userId){
     let chaHpTobe = chaHp - targetDamage
     if (chaHpTobe <= 0) chaHpTobe = 0
 
-    content += `\n${targetName}의 기술 사용! 데미지: ${targetDamage}. ${chaName}의 남은 체력: ${chaHpTobe}`
+    content += `\n▶${targetName}의 포켓몬이 기술을 사용했다!\n${chaRecords[chaIdx]['이름']}의 포켓몬에게 ${targetDamage}만큼 피해를 입혔다! 
+    ${chaName}의 남은 체력: ${chaHpTobe}`
     
     // 7-2-1. 적 -> 유저 단계에서 유저 hp가 0이 되어 유저 패배.
     if (chaHpTobe <= 0){
@@ -174,7 +178,7 @@ async function useSkill(keywords, userId){
     updateData['승부'] = {['D'+(battleIdx+3)]:battleRecords[battleIdx]['체력']}
     updateData['캐릭터'] = {['F'+(chaIdx+3)]:chaRecords[chaIdx]['현재 체력']}
 
-    content += `\n\n다음 턴을 진행합니다. 기술을 사용할 포켓몬을 선택해주세요.`
+    content += `\n\n▶다음 턴을 진행합니다. 기술을 사용할 포켓몬을 선택해주세요.`
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords}
 
   } catch (e){
