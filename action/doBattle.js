@@ -1,5 +1,6 @@
 const SpreadsheetDataHandler = require('../sheet.js');
 const _ = require('lodash');
+const { getPostposition } = require('../getPostposition.js');
 
 function doBattle(targetName, userId) {
   try {
@@ -29,7 +30,7 @@ function doBattle(targetName, userId) {
     
     // 1-2. 시트에 배틀 대상이 누락된 경우 -> 배틀을 시작할 수 없음
     if (chaRecords[chaIdx]['승부 대상'] === '' || chaRecords[chaIdx]['승부 대상'] === null || chaRecords[chaIdx]['승부 대상'] === undefined){
-      content = '배틀 할 수 있는 트레이너가 없습니다. 상대를 찾아주세요.'
+      content = '배틀이 가능한 상대가 없습니다!'
       return { 'code': -1, 'content': content }
     }
 
@@ -46,14 +47,14 @@ function doBattle(targetName, userId) {
 
     // 2-1. 배틀 탭에서 배틀 대상을 찾지 못한 경우
     if (battleIdx === null) {
-      content = `스프레드 시트에 ${targetName}의 정보가 존재하지 않습니다!`;
+      content = `${targetName}:: 스프레드 시트에 정보가 존재하지 않습니다!`;
       return { 'code': -1, 'content': content }
     }
 
     // 2-2. 배틀 대상이 다른 유저와 배틀 중인 경우
     // 모험에서 선택지를 통해 배틀이 시작됐을 경우, 한 트레이너에게 여러명이 할당되어 있을 수 있다.
     if (battleRecords[battleIdx]['승부 대상'] != '' && battleRecords[battleIdx]['승부 대상'] != undefined ){
-      content = `누군가 ${targetName}와/과 승부 진행중입니다. 잠시 기다려주세요.`
+      content = `${targetName}:: 누군가와 승부를 진행중입니다. 잠시 기다려주세요.`
       return { 'code': -1, 'content': content }
     }
 
@@ -65,7 +66,8 @@ function doBattle(targetName, userId) {
     // 4. 응답 문구 
     targetScript = battleRecords[battleIdx]['등장대사']
     targetMaxHp = '' + battleRecords[battleIdx]['최대 체력']
-    content = `예시용 응답 문구입니다. 배틀 대상: ${targetName}, 등장대사: ${targetScript}, 최대 체력: ${targetMaxHp}`
+    let targetNameP = getPostposition(targetName, '이', '가')
+    content = `\`\`\`“${targetScript}”\`\`\`\n${targetNameP} 승부를 걸어왔다!`
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': true}
 
