@@ -9,16 +9,17 @@ module.exports = {
     .setDescription('트레이너가 승부를 걸어왔다!')
     .addStringOption(option =>
       option
-        .setName('이름')
-        .setDescription('승부를 할 대상의 이름을 장성해 주세요')
+        .setName('대상')
+        .setDescription('승부를 할 대상을 작성해 주세요')
         .setRequired(true)
     )
   ,
   async execute(interaction) {
+    console.log(interaction)
     const channelId = interaction.channel.id;
     const userId = interaction.user.id;
-    const targetName = interaction.options.getString('이름')
-    const result = doBattle(targetName, userId, channelId)
+    const targetName = interaction.options.getString('대상')
+    const result = doBattle(targetName, userId)
     if (result.hasOwnProperty('updateData')) {
       // 업데이트
       const dataHandler = SpreadsheetDataHandler.getInstance();

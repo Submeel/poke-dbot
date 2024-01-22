@@ -1,64 +1,18 @@
 const SpreadsheetDataHandler = require('../sheet.js');
-const { minusItem } = require('../userItem.js');
-const { getPostposition } = require('../getPostposition.js');
 const _ = require('lodash');
 
-function doBattle(targetName, userId, channelId) {
+function doBattle(targetName, userId) {
   try {
     console.log('doBattle 시작::')
     const dataHandler = SpreadsheetDataHandler.getInstance();
     let sheetRecords = _.cloneDeep(dataHandler.sheetRecords);
-    let fileName = 'thread_' + channelId + '.json'
+    const battleRecords = sheetRecords['승부']
+    const chaRecords = sheetRecords['캐릭터']
+    let updateData = {};
+    let content = null
+    
 
-    if (openReturn.jsonData.length !== 0) {
-      //전투 진행중 에러처리
-      return
-    }
-
-    // 배틀 탭에서 데이터 찾기
-    let battleData = null //데이터 있음    
-
-
-    // 해당 명의 json 파일이 있는지
-
-
-    // 임베드
-    const ballEmbed = {
-      title: `▶ ${name} ${item}을 던졌다!`,
-      color: 0xFF5A5A,
-      footer: {
-        text: `[포획에 성공했다면 \`/추가\` 명령어로 포켓몬을 파티에 추가하자.]`,
-      },
-    };
-
-    // 1. 사용하려는 아이템이 db에 실존하는지 확인
-    let itemIdx = null
-    let itemDesc = null
-    for (let i = 0; i < itemRecords.length; i++) {
-      if (itemRecords[i]['아이템명'].trim() === item.trim()) {
-        itemIdx = i
-        itemDesc = itemRecords[i]['설명']
-        break
-      }
-    }
-
-    //1-1. 아이템이 db에 없을 경우
-    if (itemIdx === null) {
-      content = `${item} :: 올바른 아이템 이름이 아닙니다!`;
-      return { 'code': -1, 'content': content }
-    }
-
-    // 아이템 카테고리 칼럼
-    let updateCategoryCol = { '회복': 'H', '볼': 'I', '나무열매': 'J', '도구': 'K', '중요한물건': 'L' }
-
-    // 2. 소지품 카테고리에 맞춰서 추가
-    let category = itemRecords[itemIdx]['카테고리']
-    if (category !== '볼') {
-      console.log('현재 지정된 카테고리', category)
-      content = `${item} :: 카테고리가 [볼]인 아이템만 사용 가능합니다!`;
-      return { 'code': -1, 'content': content }
-    }
-
+    // 1. 해당 커맨드를 이용한 사용자가 현재 배틀 중인지 확인
     let chaIdx = null; //캐릭터 찾기
     for (let i = 0; i < chaRecords.length; i++) {
       if ('' + userId === '' + chaRecords[i]['아이디']) {
@@ -67,41 +21,53 @@ function doBattle(targetName, userId, channelId) {
       }
     }
 
+    // 1-1. 시트 내에서 사용자  id를 찾지 못한 경우
     if (chaIdx === null) {
-      content = '스프레드 시트에 정보가 존재하지 않습니다!'; //나중에 다시보기
+      content = '스프레드 시트에 정보가 존재하지 않습니다!'; 
+      return { 'code': -1, 'content': content }
+    }
+    
+    // 1-2. 시트에 배틀 대상이 누락된 경우 -> 배틀을 시작할 수 없음
+    if (chaRecords[chaIdx]['승부 대상'] == ''){
+      content = '배틀 할 수 있는 트레이너가 없습니다. 상대를 찾아주세요.'
       return { 'code': -1, 'content': content }
     }
 
 
-    let userItems = chaRecords[chaIdx][category]
-
-    let minusReturn = minusItem(item, userItems)
-    if (minusReturn['code'] !== 0) {
-      return minusReturn
+    
+    // 2. 배틀 탭에서 데이터 찾기
+    let battleIdx = null 
+    for (let i = 0; i < battleRecords.length; i++) {
+      if (targetName === '' + battleRecords[i]['이름']) {
+        battleIdx = i;
+        break;
+      }
     }
 
-    let userItemsMinus = minusReturn['content']
-    chaRecords[chaIdx][category] = userItemsMinus
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsMinus }
-
-    //주사위 굴리기
-    let diceSum = 0;
-    let diceArray = [];
-    for (let i = 0; i < 3; i++) {
-      let tmpDice = Math.floor(Math.random() * 6) + 1;
-      diceSum = diceSum + tmpDice
-      diceArray.push(tmpDice);
+    // 2-1. 배틀 탭에서 배틀 대상을 찾지 못한 경우
+    if (battleIdx === null) {
+      content = `스프레드 시트에 ${targetName}의 정보가 존재하지 않습니다!`;
+      return { 'code': -1, 'content': content }
     }
-    let dice = `\n▶굴림: [${diceArray}]   ▶결과: ${diceSum}`
-    //주사위 굴리기 끝
 
-    let MainDesc = `**${item}** : \`${itemDesc}\`\n……\n${dice}`
+    // 2-2. 배틀 대상이 다른 유저와 배틀 중인 경우
+    // 모험에서 선택지를 통해 배틀이 시작됐을 경우, 한 트레이너에게 여러명이 할당되어 있을 수 있다.
+    if (battleRecords[battleIdx]['승부 대상'] != '' && battleRecords[battleIdx]['승부 대상'] != undefined ){
+      content = `누군가 ${targetName}와/과 승부 진행중입니다. 잠시 기다려주세요.`
+      return { 'code': -1, 'content': content }
+    }
 
+    
+    // 3. 배틀 대상(트레이너) 데이터에 id 넣어서 배틀 선점 처리.
+    battleRecords[battleIdx]['승부 대상'] = ''+userId
+    updateData['승부'] = {['I'+(battleIdx+3)]:battleRecords[battleIdx]['승부 대상']}
 
-    ballEmbed.description = `${MainDesc}`
-    content = { embeds: [ballEmbed] };
+    // 4. 응답 문구 
+    targetScript = battleRecords[battleIdx]['등장대사']
+    targetMaxHp = '' + battleRecords[battleIdx]['최대 체력']
+    content = `예시용 응답 문구입니다. 배틀 대상: ${targetName}, 등장대사: ${targetScript}, 최대 체력: ${targetMaxHp}`
 
-    return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords }
+    return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': true}
 
 
   } catch (e) {
