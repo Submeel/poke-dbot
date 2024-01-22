@@ -38,7 +38,7 @@ function doBattle(targetName, userId) {
     // 2. 배틀 탭에서 데이터 찾기
     let battleIdx = null 
     for (let i = 0; i < battleRecords.length; i++) {
-      if (targetName === '' + battleRecords[i]['이름']) {
+      if (`${targetName}` === '' + battleRecords[i]['이름']) {
         battleIdx = i;
         break;
       }
@@ -69,7 +69,7 @@ function doBattle(targetName, userId) {
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': true}
 
-    
+
 
   } catch (e) {
     //에러 처리
