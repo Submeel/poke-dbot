@@ -63,7 +63,9 @@ function doBattleStop(userId){
                             ['T'+(chaIdx+3)]:chaRecords[chaIdx]['승부 대상'] // 승부 대상 셀을 비워줘야 다음 승부 가능
                           } 
     
-    content = `${chaRecords[chaIdx]['이름']}와/과 ${battleRecords[battleIdx]['이름']}의 승부를 종료합니다.`
+
+    let userNameP = getPostposition(chaRecords[chaIdx]['이름'], '과', '와')
+    content = `${userNameP} ${battleRecords[battleIdx]['이름']}의 승부를 중단합니다.`
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords}
 
 
