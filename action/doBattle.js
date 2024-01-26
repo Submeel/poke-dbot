@@ -63,11 +63,20 @@ function doBattle(targetName, userId) {
     battleRecords[battleIdx]['승부 대상'] = ''+userId
     updateData['승부'] = {['I'+(battleIdx+3)]:battleRecords[battleIdx]['승부 대상']}
 
+    let targetNameP = getPostposition(targetName, '이', '가')
+    const battleEmbed = {
+      title: `▶${targetNameP} 승부를 걸어왔다!`,
+      color: 0xFF5A5A,
+      footer: {
+        text: `[포획에 성공했다면 \`/추가\` 명령어로 포켓몬을 파티에 추가하자.]`,
+      },
+    };
+
     // 4. 응답 문구 
     targetScript = battleRecords[battleIdx]['등장대사']
     targetMaxHp = '' + battleRecords[battleIdx]['최대 체력']
-    let targetNameP = getPostposition(targetName, '이', '가')
-    content = `\`\`\`“${targetScript}”\`\`\`\n${targetNameP} 승부를 걸어왔다!`
+    battleEmbed.description = `\`\`\`“${targetScript}”\`\`\`\n▶${targetName}의 체력: ${targetMaxHp}`
+    content = { embeds: [battleEmbed] };
 
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords, 'isNeedThread': true}
 
