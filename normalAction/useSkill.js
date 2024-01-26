@@ -87,6 +87,7 @@ async function useSkill(keywords, userId){
     const chaName = chaRecords[chaIdx]['이름']
     const targetName = battleRecords[battleIdx]['이름']        
     
+    let desc = ''
     // 임베드
     const vsEmbed = {
       color: 0xFF5A5A,
