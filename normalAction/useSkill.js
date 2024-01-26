@@ -85,8 +85,13 @@ async function useSkill(keywords, userId){
     const targetDicePlus = parseInt(battleRecords[battleIdx]['공격력:상수'])
     
     const chaName = chaRecords[chaIdx]['이름']
-    const targetName = battleRecords[battleIdx]['이름']
+    const targetName = battleRecords[battleIdx]['이름']        
     
+    // 임베드
+    const vsEmbed = {
+      color: 0xFF5A5A,
+      description: `${desc}`,
+    };
 
     // 6. 유저 -> 적
     
@@ -101,7 +106,7 @@ async function useSkill(keywords, userId){
     if (targetHpTobe <= 0 ) targetHpTobe = 0
     
     let monNameP = getPostposition(monName, '이', '가')
-    content = `▶${chaRecords[chaIdx]['이름']}의 ${monNameP} 기술을 사용했다!\n ${targetName}의 포켓몬에게 ${monDamage}만큼 피해를 입혔다! 
+    desc = `▶${chaRecords[chaIdx]['이름']}의 ${monNameP} 기술을 사용했다!\n ${targetName}의 포켓몬에게 ${monDamage}만큼 피해를 입혔다! 
     ${targetName}의 남은 체력: ${targetHpTobe}`
     // 6-2-1. 유저->적 단계에서 적 hp가 0이 되면 이후 스텝 밟지 않고 바로 전투 종료처리한다.
     // 러너와 적의 hp 리셋. 각자의 누구와 전투 중이었는지 기록하는 셀 리셋.
@@ -130,7 +135,8 @@ async function useSkill(keywords, userId){
                             } 
       
       
-      content += `\n\n${chaRecords[chaIdx]['이름']}의 승리! \n경험치를 ${addExp} 획득했다! \n용돈을 ${addMoney}원 획득했다! \n▶승부 종료.`
+      desc += `\n\n${chaRecords[chaIdx]['이름']}의 승리! \n경험치를 ${addExp} 획득했다! \n용돈을 ${addMoney}원 획득했다! \n▶승부 종료.`
+      content = { embeds: [vsEmbed] }; 
       return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords}
     } 
 
@@ -147,7 +153,7 @@ async function useSkill(keywords, userId){
     let chaHpTobe = chaHp - targetDamage
     if (chaHpTobe <= 0) chaHpTobe = 0
 
-    content += `\n▶${targetName}의 포켓몬이 기술을 사용했다!\n${chaRecords[chaIdx]['이름']}의 포켓몬에게 ${targetDamage}만큼 피해를 입혔다! 
+    desc += `\n▶${targetName}의 포켓몬이 기술을 사용했다!\n${chaRecords[chaIdx]['이름']}의 포켓몬에게 ${targetDamage}만큼 피해를 입혔다! 
     ${chaName}의 남은 체력: ${chaHpTobe}`
     
     // 7-2-1. 적 -> 유저 단계에서 유저 hp가 0이 되어 유저 패배.
@@ -166,7 +172,8 @@ async function useSkill(keywords, userId){
                             } 
       
       
-      content += `\n\n${chaRecords[chaIdx]['이름']}의 패배. 승부를 종료합니다.`
+      desc += `\n\n${chaRecords[chaIdx]['이름']}의 패배. 승부를 종료합니다.`
+      content = { embeds: [vsEmbed] };
       return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords}
     } 
 
@@ -178,7 +185,9 @@ async function useSkill(keywords, userId){
     updateData['승부'] = {['D'+(battleIdx+3)]:battleRecords[battleIdx]['체력']}
     updateData['캐릭터'] = {['F'+(chaIdx+3)]:chaRecords[chaIdx]['현재 체력']}
 
-    content += `\n\n▶다음 턴을 진행합니다. 기술을 사용할 포켓몬을 선택해주세요.`
+    desc += `\n\n▶다음 턴을 진행합니다. 기술을 사용할 포켓몬을 선택해주세요.`
+
+    content = { embeds: [vsEmbed] };
     return { 'code': 0, 'content': content, 'updateData': updateData, 'sheetRecords': sheetRecords}
 
   } catch (e){
