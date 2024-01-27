@@ -68,7 +68,7 @@ function doBattle(targetName, userId) {
       title: `▶${targetNameP} 승부를 걸어왔다!`,
       color: 0xFF5A5A,
       footer: {
-        text: `[포획에 성공했다면 \`/추가\` 명령어로 포켓몬을 파티에 추가하자.]`,
+        text: `[배틀을 중단하고 싶다면 /중단 명령어를 이용하자.]`,
       },
     };
 
