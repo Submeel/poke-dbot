@@ -58,7 +58,6 @@ function doGacha(userId) {
         break;
       }
     }
-    console.log('selectIdxArray:', selectIdxArray)
     console.log('tmpWeight:', tmpWeight)
     console.log('pickIdx:', pickIdx)
     console.log(gachaRecords[pickIdx]['아이템'])
