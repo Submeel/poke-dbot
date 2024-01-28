@@ -91,10 +91,10 @@ function doAdv(keyword, userId) {
         break;
       }
     }
-    console.log('selectIdxArray:', selectIdxArray)
-    console.log('tmpWeight:', tmpWeight)
-    console.log('pickIdx:', pickIdx) 
-    console.log(advRecords[selectIdxArray[pickIdx]]['응답내용'])
+    // console.log('selectIdxArray:', selectIdxArray)
+    // console.log('tmpWeight:', tmpWeight)
+    // console.log('pickIdx:', pickIdx) 
+    // console.log(advRecords[selectIdxArray[pickIdx]]['응답내용'])
 
     // 4. 그 행의 `응답 내용`을 보낸다
 
