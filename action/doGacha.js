@@ -1,5 +1,6 @@
 const SpreadsheetDataHandler = require('../sheet.js');
 const { minusItem } = require('../userItem.js');
+const { addItem } = require('../userItem.js');
 const { getPostposition } = require('../getPostposition.js');
 const _ = require('lodash');
 
