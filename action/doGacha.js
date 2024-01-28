@@ -25,9 +25,6 @@ function doGacha(userId) {
       }
     }
 
-    let chaMoney = chaRecords[chaIdx]['소지금'] //유저 소지금
-    console.log('판매 전 소지금:' + chaMoney)
-
     // 유실물 확인
     let item = '포켓몬의 유실물'
     let lostIdx = null
@@ -45,10 +42,16 @@ function doGacha(userId) {
     }
 
     // 가중치에 따른 아이템 하나 뽑기
-    let totalWeight = gachaRecords.length;
+    let totalWeight = 0;
+    for (let i = 0; i < gachaRecords.length; i++) {
+      totalWeight += parseInt(gachaRecords[i]['가중치'])
+      }
+
     let pickWeight = Math.floor(Math.random() * totalWeight);
+    
     console.log('totalWeight:', totalWeight)
     console.log('pickWeight:', pickWeight)
+    
     let tmpWeight = 0;
     let pickIdx = null;
     for (let i = 0; i < gachaRecords.length; i++) {
