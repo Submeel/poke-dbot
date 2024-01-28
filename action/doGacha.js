@@ -51,7 +51,7 @@ function doGacha(userId) {
     
     console.log('totalWeight:', totalWeight)
     console.log('pickWeight:', pickWeight)
-    
+
     let tmpWeight = 0;
     let pickIdx = null;
     for (let i = 0; i < gachaRecords.length; i++) {
@@ -82,7 +82,7 @@ function doGacha(userId) {
     // 유저 인벤에 넣어주기
     let userItems = chaRecords[chaIdx][category]
 
-    let addReturn = addItem(item, userItems)
+    let addReturn = addItem(gacha, userItems)
     if (addReturn['code'] !== 0) {
       return addReturn
     }
