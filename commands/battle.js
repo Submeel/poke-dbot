@@ -45,7 +45,7 @@ module.exports = {
 
       //스레드에 메시지 전송
       let makeThread = await thread.send(`- [기술사용/(포켓몬 이름)] 으로 선출 포켓몬을 결정하자!`);
-      writeJson(makeThread.channelId)
+      //writeJson(makeThread.channelId)
     }
     interaction.reply(result.content)
   },

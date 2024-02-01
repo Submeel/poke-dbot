@@ -43,7 +43,7 @@ module.exports = {
 
       //스레드에 메시지 전송
       let makeThread = await thread.send(result.threadDesc);
-      writeJson(makeThread.channelId)
+      //writeJson(makeThread.channelId)
     }
     interaction.reply(result.content)
   },
