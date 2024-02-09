@@ -40,6 +40,9 @@ function doGacha(userId) {
     if (minusReturn['code'] !== 0) {
       return minusReturn
     }
+    let userItemsMinus = minusReturn['content']
+    chaRecords[chaIdx]['도구'] = userItemsMinus
+    updateData['캐릭터'] = { ['K' + (chaIdx + 3)]: userItemsMinus }
 
     // 가중치에 따른 아이템 하나 뽑기
     let totalWeight = 0;
@@ -87,11 +90,11 @@ function doGacha(userId) {
       return addReturn
     }
 
-    let userItemsMinus = minusReturn['content']
+    
     let userItemsAdd = addReturn['content']
-    chaRecords[chaIdx]['도구'] = userItemsMinus
+    
     chaRecords[chaIdx][category] = userItemsAdd
-    updateData['캐릭터'] = { ['K' + (chaIdx + 3)]: userItemsMinus, [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd }
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd }
 
 
     //임베드 만들기    
