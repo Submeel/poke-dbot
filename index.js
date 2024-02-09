@@ -50,10 +50,12 @@ client.on(Events.ClientReady, () => {
         if (hours === 0 && minutes === 0 && seconds === 0) {
             await dataHandler.clearCells("캐릭터", "R3:R");
             await dataHandler.clearCells("캐릭터", "S3:S");
+            await dataHandler.clearCells("캐릭터", "T3:T");
             await dataHandler.clearCells("모험", "F3:F");
             for (const userId in chaRecords) {
                 chaRecords[userId]['모험횟수'] = null;
                 chaRecords[userId]['탐색횟수'] = null;
+                chaRecords[userId]['승부 대상'] = null;
             }
             for (const keyword in advRecords) {
                 advRecords[keyword]['발견자'] = null;
