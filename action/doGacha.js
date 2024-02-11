@@ -42,7 +42,6 @@ function doGacha(userId) {
     }
     let userItemsMinus = minusReturn['content']
     chaRecords[chaIdx]['도구'] = userItemsMinus
-    updateData['캐릭터'] = { ['K' + (chaIdx + 3)]: userItemsMinus }
 
     // 가중치에 따른 아이템 하나 뽑기
     let totalWeight = 0;
@@ -94,7 +93,8 @@ function doGacha(userId) {
     let userItemsAdd = addReturn['content']
     
     chaRecords[chaIdx][category] = userItemsAdd
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd }
+    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd, ['K' + (chaIdx + 3)]: userItemsMinus }
+    console.log('유실물 빠진 도구창', chaRecords[chaIdx]['도구'])
 
 
     //임베드 만들기    
