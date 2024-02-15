@@ -26,7 +26,7 @@ function doGacha(userId) {
     }
 
     // 유실물 확인
-    let item = '포켓몬의 유실물'
+    let lost = '포켓몬의 유실물'
     let lostIdx = null
     for (let i = 0; i < itemRecords.length; i++) {
       if (itemRecords[i]['아이템명'].trim() === item.trim()) {
@@ -36,7 +36,7 @@ function doGacha(userId) {
     }
 
     let userToolItems = chaRecords[chaIdx]['도구']
-    let minusReturn = minusItem(item, userToolItems) //유실물 하나 납품
+    let minusReturn = minusItem(lost, userToolItems) //유실물 하나 납품
     if (minusReturn['code'] !== 0) {
       return minusReturn
     }
@@ -83,23 +83,20 @@ function doGacha(userId) {
 
     // 유저 인벤에 넣어주기
     let userItems = chaRecords[chaIdx][category]
-
     let addReturn = addItem(gacha, userItems)
     if (addReturn['code'] !== 0) {
       return addReturn
     }
-
+    chaRecords[chaIdx][category] = userItemsAdd
     
     let userItemsAdd = addReturn['content']
-    
-    chaRecords[chaIdx][category] = userItemsAdd
-    updateData['캐릭터'] = { [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd, ['K' + (chaIdx + 3)]: userItemsMinus }
+    updateData['캐릭터'] = {['K' + (chaIdx + 3)]: userItemsMinus , [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd}
     console.log('유실물 빠진 도구창', chaRecords[chaIdx]['도구'])
 
 
     //임베드 만들기    
     const sellEmbed = {
-      title: `[납품::]`,
+      title: `[납품 ::]`,
       color: 0x5A95F5,
     };
 
