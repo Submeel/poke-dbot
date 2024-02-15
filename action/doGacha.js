@@ -29,7 +29,7 @@ function doGacha(userId) {
     let lost = '포켓몬의 유실물'
     let lostIdx = null
     for (let i = 0; i < itemRecords.length; i++) {
-      if (itemRecords[i]['아이템명'].trim() === item.trim()) {
+      if (itemRecords[i]['아이템명'].trim() === lost.trim()) {
         lostIdx = i
         break
       }
