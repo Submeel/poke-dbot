@@ -86,10 +86,10 @@ function doGacha(userId) {
     let addReturn = addItem(gacha, userItems)
     if (addReturn['code'] !== 0) {
       return addReturn
-    }
+    }    
+    let userItemsAdd = addReturn['content']
     chaRecords[chaIdx][category] = userItemsAdd
     
-    let userItemsAdd = addReturn['content']
     updateData['캐릭터'] = {['K' + (chaIdx + 3)]: userItemsMinus , [updateCategoryCol[category] + (chaIdx + 3)]: userItemsAdd}
     console.log('유실물 빠진 도구창', chaRecords[chaIdx]['도구'])
 
