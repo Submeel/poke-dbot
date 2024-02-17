@@ -115,9 +115,9 @@ function doUse(item, userId) {
           break;
         }
       }
-      if (item = '풀회복약'){
+      if (item === `풀회복약`){
         hpDesc = `\nHP가 전부 회복되었다! \n ▶${name}의 현재 HP : ${chaRecords[chaIdx]['현재 체력']}`
-      }else{
+      } else {
         hpDesc = `\nHP가 ${itemRecords[itemIdx]['증가']}만큼 회복되었다! \n ▶${name}의 현재 HP : ${chaRecords[chaIdx]['현재 체력']}`
       }
     }
