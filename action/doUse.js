@@ -115,7 +115,11 @@ function doUse(item, userId) {
           break;
         }
       }
-      hpDesc = `\nHP가 ${itemRecords[itemIdx]['증가']}만큼 회복되었다! \n ▶${name}의 현재 HP : ${chaRecords[chaIdx]['현재 체력']}`
+      if (item = '풀회복약'){
+        hpDesc = `\nHP가 전부 회복되었다! \n ▶${name}의 현재 HP : ${chaRecords[chaIdx]['현재 체력']}`
+      }else{
+        hpDesc = `\nHP가 ${itemRecords[itemIdx]['증가']}만큼 회복되었다! \n ▶${name}의 현재 HP : ${chaRecords[chaIdx]['현재 체력']}`
+      }
     }
 
     // 경험치가 더해지는 아이템일 경우
