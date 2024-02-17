@@ -125,9 +125,11 @@ function doPokemonExp(monName, amount, userId) {
     // 현재 포켓몬의 레벨 !== 바뀌는 포켓몬 레벨이면 
     let levelUpDesc = '';
     if (monLevel < tobeMonLv) {
-      levelUpDesc = `\n ▶${monName}의 레벨이 ${tobeMonLv} (으)로 올랐다!\n ▶HP가 올랐다! [ ${chaMaxHp} → ${chaMaxHp + (tobeMonLv - monLevel) * 6} ]\n ▶HP가 모두 회복되었다!`; //임베드에 레벨업 메시지 보내기
-      chaMaxHp = chaMaxHp + (tobeMonLv - monLevel) * 6     
-      chaNowHp = chaMaxHp //렙업은 최고의 힐이다
+      levelUpDesc = `\n ▶${monName}의 레벨이 ${tobeMonLv} (으)로 올랐다!\n `
+      if (allPkmObjs[monIdx]['파티'] === 'TRUE'){
+        levelUpDesc =+`▶HP가 올랐다! [ ${chaMaxHp} → ${chaMaxHp + (tobeMonLv - monLevel) * 6} ]\n ▶HP가 모두 회복되었다!`; //임베드에 레벨업 메시지 보내기
+        chaMaxHp = chaMaxHp + (tobeMonLv - monLevel) * 6
+        chaNowHp = chaMaxHp} //렙업은 최고의 힐이다
       } //포켓몬 레벨에 따른 캐릭터 HP 정산
       
     allPkmObjs[monIdx]['이름'] = allPkmObjs[monIdx]['이름']
