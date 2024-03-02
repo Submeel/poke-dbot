@@ -109,7 +109,7 @@ function doPokemonExp(monName, amount, userId) {
         if (parseInt(expRecords[i]['누적 경험치']) === parseInt(toBeMonExp)){
           tobeMonLv = parseInt(expRecords[i]['레벨'])
         }
-        if (tobeMonLv > 20) {
+        if (tobeMonLv > 30) {
           content = `[시즌 0:-쓰레기섬-] 현재 포켓몬의 레벨 상한치는 30입니다! \n 경험치 부여 시도 결과 포켓몬의 레벨 :: Lv. ${tobeMonLv}`;
           return { 'code': -1, 'content': content }
         }
